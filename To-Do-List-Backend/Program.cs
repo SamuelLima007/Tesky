@@ -9,8 +9,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<TaskDataContext>(options =>
     options.UseSqlite("Data Source=Tasks.db"));
 builder.Services.AddControllers();
-var generator = new IdGenerator(0);
-builder.Services.AddSingleton(generator);
+
+
 
 
 builder.Services.AddCors(options =>

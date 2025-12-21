@@ -15,12 +15,12 @@ namespace To_Do_List_Backend.Controllers
     public class TaskController : ControllerBase
     {
        private readonly TaskDataContext _context;
-       private readonly IdGenerator _idgenerator;
+   
 
-       public TaskController(TaskDataContext context, IdGenerator idgenerator)
+       public TaskController(TaskDataContext context)
        {
         _context = context;
-        _idgenerator = idgenerator;
+        
        }
 
 

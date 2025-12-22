@@ -5,14 +5,15 @@ import { CommonModule } from '@angular/common';
 import { LucideAngularModule, TextAlignJustifyIcon, Trash, CircleCheck } from 'lucide-angular';
 import { Task } from '../../app';
 import { ButtonModule } from 'primeng/button';
+import { Icon } from '../../Components/icon/icon';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterOutlet, FormsModule, CommonModule, LucideAngularModule, ButtonModule],
+  imports: [RouterOutlet, FormsModule, CommonModule, LucideAngularModule, ButtonModule, Icon],
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
 export class Home {
-readonly CircleCheck = CircleCheck;
+
 
 }

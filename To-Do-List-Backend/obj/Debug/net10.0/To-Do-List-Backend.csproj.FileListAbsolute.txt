@@ -158,3 +158,4 @@ C:\Users\samu\Desktop\PROJETOS\To-Do Lisst\To-Do-List-Backend\obj\Debug\net10.0\
 C:\Users\samu\Desktop\PROJETOS\To-Do Lisst\To-Do-List-Backend\obj\Debug\net10.0\To-Do-List-Backend.genruntimeconfig.cache
 C:\Users\samu\Desktop\PROJETOS\To-Do Lisst\To-Do-List-Backend\obj\Debug\net10.0\ref\To-Do-List-Backend.dll
 C:\Users\samu\Desktop\PROJETOS\To-Do Lisst\To-Do-List-Backend\bin\Debug\net10.0\IdGen.dll
+C:\Users\samu\Desktop\PROJETOS\To-Do Lisst\To-Do-List-Backend\obj\Debug\net10.0\To-Do-List-Backend.sourcelink.json

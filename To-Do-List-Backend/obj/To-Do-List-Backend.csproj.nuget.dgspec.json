@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\samu\\Desktop\\PROJETOS\\To-Do Lisst\\To-Do-List-Backend\\To-Do-List-Backend.csproj": {}
+    "C:\\Users\\samu\\Desktop\\PROJETOS\\Tesky\\To-Do-List-Backend\\To-Do-List-Backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\samu\\Desktop\\PROJETOS\\To-Do Lisst\\To-Do-List-Backend\\To-Do-List-Backend.csproj": {
+    "C:\\Users\\samu\\Desktop\\PROJETOS\\Tesky\\To-Do-List-Backend\\To-Do-List-Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\samu\\Desktop\\PROJETOS\\To-Do Lisst\\To-Do-List-Backend\\To-Do-List-Backend.csproj",
+        "projectUniqueName": "C:\\Users\\samu\\Desktop\\PROJETOS\\Tesky\\To-Do-List-Backend\\To-Do-List-Backend.csproj",
         "projectName": "To-Do-List-Backend",
-        "projectPath": "C:\\Users\\samu\\Desktop\\PROJETOS\\To-Do Lisst\\To-Do-List-Backend\\To-Do-List-Backend.csproj",
+        "projectPath": "C:\\Users\\samu\\Desktop\\PROJETOS\\Tesky\\To-Do-List-Backend\\To-Do-List-Backend.csproj",
         "packagesPath": "C:\\Users\\samu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\samu\\Desktop\\PROJETOS\\To-Do Lisst\\To-Do-List-Backend\\obj\\",
+        "outputPath": "C:\\Users\\samu\\Desktop\\PROJETOS\\Tesky\\To-Do-List-Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\samu\\AppData\\Roaming\\NuGet\\NuGet.Config"

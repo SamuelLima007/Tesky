@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Urf+rGs/s6A=",
+  "dgSpecHash": "kq+1RnnQkJs=",
   "success": true,
-  "projectFilePath": "C:\\Users\\samu\\Desktop\\PROJETOS\\To-Do Lisst\\To-Do-List-Backend\\To-Do-List-Backend.csproj",
+  "projectFilePath": "C:\\Users\\samu\\Desktop\\PROJETOS\\Tesky\\To-Do-List-Backend\\To-Do-List-Backend.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\samu\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\samu\\.nuget\\packages\\idgen\\3.0.7\\idgen.3.0.7.nupkg.sha512",

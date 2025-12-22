@@ -4,6 +4,6 @@ import { Component } from 'lucide-angular';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { App } from './app';
-import { HomeComponent } from './Components/home-component/home-component';
+import { Home } from './pages/home/home';
 
-export const routes: Routes = [{ path: '', component: HomeComponent }];
+export const routes: Routes = [{ path: '', component: Home }];

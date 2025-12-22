@@ -2,7 +2,11 @@
 module.exports = {
   content: ['./src/**/*.{html,ts}'],
   theme: {
-    extend: {
+    extend: {fontFamily: {
+       
+       poppins: ['Poppins-bold', 'sans-serif']
+   
+      },
       colors: {
         background: 'oklch(0.99 0 0)',
         primary: 'oklch(0.55 0.15 240)',

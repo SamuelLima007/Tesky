@@ -1,0 +1,79 @@
+# ===============================
+# .NET / Visual Studio
+# ===============================
+bin/
+obj/
+.vs/
+*.user
+*.userosscache
+*.suo
+*.cache
+*.log
+
+# ===============================
+# Build / Publish
+# ===============================
+[Bb]uild/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+publish/
+*.Publish.xml
+*.pubxml
+*.publishproj
+
+# ===============================
+# Rider / VS Code
+# ===============================
+.idea/
+.vscode/
+
+# ===============================
+# NuGet
+# ===============================
+packages/
+*.nupkg
+*.snupkg
+.nuget/
+.nuget/packages/
+
+# ===============================
+# Testes
+# ===============================
+TestResults/
+coverage/
+coverage.cobertura.xml
+
+# ===============================
+# ASP.NET Core
+# ===============================
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.json
+
+# ===============================
+# Logs
+# ===============================
+logs/
+*.log
+
+# ===============================
+# Banco / Local
+# ===============================
+*.mdf
+*.ldf
+*.db
+*.sqlite
+
+# ===============================
+# OS
+# ===============================
+.DS_Store
+Thumbs.db
+
+# ===============================
+# Outros
+# ===============================
+.env
+.env.*

@@ -1,0 +1,22 @@
+.my-button {
+  font-size: 0.875rem;                  
+  color: rgba(156, 163, 175, 0.7);     
+  background-color: #09090b;          
+  border: 1px solid #4b5563;         
+  border-radius: 10%;  
+  padding: 0.25rem 0.75rem;           
+  transition: transform 0.2s;          
+  cursor: pointer;                   
+}
+
+.my-button:hover {
+  transform: scale(1.05);             
+}
+
+.ativo
+{
+      font-weight: bold;
+      color: whitesmoke;
+      background-color: #4f46e5;
+      border: none;
+}

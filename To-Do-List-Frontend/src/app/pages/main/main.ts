@@ -24,8 +24,9 @@ export class Main {
   
 
    Tasklist : TaskInterface[] = []
-   checked : boolean = false
+   
    NewTask: string = ""
+   TaskEdit : string = ""
 
    AddTask()
    {
@@ -49,7 +50,25 @@ export class Main {
 
    EditTask(task : TaskInterface)
    {
-       task.description = "nada";
+       var edit = document.getElementById("Edit")
+        var taskoutput = document.getElementById("task1")
+       taskoutput?.classList.add('hidden')
+        if(edit?.classList.contains("hidden"))
+        {
+          edit?.classList.remove("hidden")
+          
+          
+        }
+        else
+        {
+          taskoutput?.classList.remove('hidden')
+          if(this.TaskEdit != "")
+          {
+            task.description = this.TaskEdit
+          }
+          edit?.classList.add('hidden')
+        }
+       
 
    }
 

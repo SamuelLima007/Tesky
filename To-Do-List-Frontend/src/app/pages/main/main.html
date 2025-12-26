@@ -49,10 +49,16 @@
               <ul class="flex flex-col gap-4   ">
 
           <ng-container *ngFor="let task of Tasklist" >
+           
+           
             <div class="task-container bg-gray-500/20  rounded-xl  text-2xl gap-5 p-5 items-center flex flex-row  ">
-              <div class="checkbox mt-1"><p-checkbox inputId="size_small" name="size" value="small" [(ngModel)]="checked" [binary]="true" /> </div>
-            <li class="flex flex-1">{{task.description}}</li>
-            <div class="flex flex-row gap-4">
+              <div class="checkbox mt-1"><p-checkbox inputId="size_small" name="size" value="small" [(ngModel)]="task.completed" [binary]="true" /> </div>
+            <li [ngClass]="task.completed ? 'line-through text-gray-600/60' : '' "  id="task1" class=" flex-1 ">{{task.description}}</li>
+            <input id="Edit" [(ngModel)]="TaskEdit" type="text" placeholder="Digite sua tarefa..." class=" hidden flex-1 mt-0.5  w-40 text-sm bg-zinc-800/40  text-blue-100  rounded-md placeholder:text-zinc-500 py-2 px-3">
+            
+       
+       
+       <div class="flex flex-row gap-4">
               <lucide-icon (click)="EditTask(task)" [img]="Pencilicon" class="text-blue-400 cursor-pointer transition hover:scale-95"></lucide-icon>
               <lucide-icon (click)="RemoveTask(task)" [img]="Trash2" class="text-red-500/70 cursor-pointer transition hover:scale-95"></lucide-icon>
             </div>

@@ -8,8 +8,8 @@ import { PencilIcon } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { PaginatorModule, Paginator } from 'primeng/paginator';
-import { ChangeDetectorRef } from '@angular/core';
 import { ToastModule } from 'primeng/toast';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-main',
@@ -21,6 +21,8 @@ import { ToastModule } from 'primeng/toast';
     CommonModule,
     PaginatorModule,
     ToastModule,
+    CdkDrag,
+    CdkDropList,
   ],
   templateUrl: './main.html',
   styleUrl: './main.css',
@@ -41,6 +43,10 @@ export class Main {
 
   ngOnInit(): void {
     this.FilterButton('Total');
+  }
+
+  drop(event: CdkDragDrop<TaskInterface[]>) {
+    moveItemInArray(this.TasklistFiltered, event.previousIndex, event.currentIndex);
   }
 
   AddTask() {

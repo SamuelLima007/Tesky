@@ -76,15 +76,16 @@
         <div
           class="list-content max-w-11/12 text-white min-w-11/12 lg:min-w-7/12 lg:max-w-96 mx-auto"
         >
-          <ul class="flex flex-col gap-4">
-            <ng-container *ngFor="let task of TasklistFiltered">
+          <ul cdkDropList (cdkDropListDropped)="drop($event)" class="flex flex-col gap-4">
+            <ng-container *ngFor="let task of TasklistFiltered; track: task">
               <div
+                cdkDrag
                 [ngClass]="{
                   hidden:
                     (task.completed == true && Activefilter == 'Actives') ||
                     (task.completed == false && Activefilter == 'Completed')
                 }"
-                class="task-container bg-gray-500/20 rounded-xl text-2xl gap-5 p-5 items-center flex flex-row"
+                class="task-container bg-gray-500/20 rounded-xl text-2xl gap-5 p-5 items-center flex flex-row transition hover:scale-105 hover:bg-stone-950/60"
               >
                 <div class="checkbox self-start mt-2">
                   <p-checkbox

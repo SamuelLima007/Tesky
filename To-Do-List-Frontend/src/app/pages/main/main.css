@@ -19,3 +19,7 @@
   background-color: #4f46e5;
   border: none;
 }
+.cdk-arrastar {
+  background-color: red;
+  color: white;
+}

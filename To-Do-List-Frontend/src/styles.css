@@ -16,6 +16,9 @@ input:focus
 }
 
 
-
+.p-toast-message-icon
+{
+    margin-top: 2.7px;
+}
 
 

@@ -1,90 +1,134 @@
 <div class="container mx-auto w-full min-h-screen flex justify-center">
-
-    <div class="content-container mt-8 w-full flex">
-
-      <div class="items flex flex-col gap-1 w-full">
-
-           <div class="text-content text-center">
-             <div><h1 class="text-3xl xl:text-3xl text-white font-bold">Tesky</h1></div>
-             <div><h2 class="text-md text-blue-100/50" >Organize suas tarefas</h2></div>
-           </div>
-
-           <div class="status-container flex justify-between gap-4 min-w-11/12 lg:min-w-7/12  m-2 mx-auto">
-             <div class="w-full  bg-stone-900/40 ring-1 ring-gray-400/30 rounded-sm text-gray-100/30  py-2 px-2 text-center  ">
-
-                <span class="text-white text-3xl">1</span>
-                <p class="text-sm">Total</p>
-
-             </div>
-
-             <div class="w-full bg-stone-900/40 ring-1 ring-gray-400/30 rounded-sm text-gray-100/30  py-2 px-2 text-center ">
-
-                <span class="text-3xl text-indigo-400">1</span>
-                <p class="text-sm">Ativas</p>
-
-             </div>
-
-               <div class="w-full bg-stone-900/40 ring-1 ring-gray-400/30 rounded-sm text-gray-100/30  py-2 px-2 text-center ">
-
-                <span class="text-3xl text-green-400 ">1</span>
-                <p class="text-sm">Concluidas</p>
-
-               </div>
-           </div>
-
-           <div class="input-container flex justify-between gap-0.5 min-w-11/12 lg:min-w-7/12  m-2 mx-auto">
-            <input [(ngModel)]="NewTask" type="text" placeholder="Digite sua tarefa..." class="w-full bg-zinc-800/40 border-zinc-700  text-blue-100  rounded-sm placeholder:text-zinc-500 py-2 px-3">]
-            <button class="bg-indigo-600  min-w-12 h-12 rounded-md text-black text-3xl pb-0.5 transition hover:scale-90 cursor-pointer
-            " (click)="AddTask()">+</button>
-           </div>
-
-           <div class="selectbuttons-container  flex  gap-2 min-w-11/12 lg:min-w-7/12  m-2 mx-auto ">
-           <button id="button1"  class=" my-button ativo" (click)="Ativar($event)" >Total</button>
-           <button id="button2"  class=" my-button" (click)="Ativar($event)">Ativas</button>
-           <button id="button3" class=" my-button" (click)="Ativar($event)">Concluidas</button>
-           </div>
-           
-           <div class="list-container w-full h-full flex justify-center">
-            <div class="list-content text-white min-w-11/12 lg:min-w-7/12  m-2 mx-auto">
-              <ul class="flex flex-col gap-4   ">
-
-          <ng-container *ngFor="let task of Tasklist" >
-           
-           
-            <div class="task-container bg-gray-500/20  rounded-xl  text-2xl gap-5 p-5 items-center flex flex-row  ">
-              <div class="checkbox mt-1"><p-checkbox inputId="size_small" name="size" value="small" [(ngModel)]="task.completed" [binary]="true" /> </div>
-            <li [ngClass]="task.completed ? 'line-through text-gray-600/60' : '' "  id="task1" class=" flex-1 ">{{task.description}}</li>
-            <input id="Edit" [(ngModel)]="TaskEdit" type="text" placeholder="Digite sua tarefa..." class=" hidden flex-1 mt-0.5  w-40 text-sm bg-zinc-800/40  text-blue-100  rounded-md placeholder:text-zinc-500 py-2 px-3">
-            
-       
-       
-       <div class="flex flex-row gap-4">
-              <lucide-icon (click)="EditTask(task)" [img]="Pencilicon" class="text-blue-400 cursor-pointer transition hover:scale-95"></lucide-icon>
-              <lucide-icon (click)="RemoveTask(task)" [img]="Trash2" class="text-red-500/70 cursor-pointer transition hover:scale-95"></lucide-icon>
-            </div>
-          </div>
-          </ng-container>
-            
-              
-              </ul>
-              
-            </div>
-           </div>
-         
-
+  <div class="content-container mt-8 w-full flex">
+    <div class="items flex flex-col gap-1 w-full">
+      <div class="text-content text-center">
+        <div><h1 class="text-3xl xl:text-3xl text-white font-bold">Tesky</h1></div>
+        <div><h2 class="text-md text-blue-100/50">Organize suas tarefas</h2></div>
       </div>
 
-   
- 
-    
-  
-        
+      <div
+        class="status-container flex justify-between gap-4 min-w-11/12 lg:min-w-7/12 m-2 mx-auto"
+      >
+        <div
+          class="w-full bg-stone-900/40 ring-1 ring-gray-400/30 rounded-sm text-gray-100/30 py-2 px-2 text-center"
+        >
+          <span class="text-white text-3xl">{{ Tasklist.length }}</span>
+          <p class="text-sm">Total</p>
+        </div>
 
+        <div
+          class="w-full bg-stone-900/40 ring-1 ring-gray-400/30 rounded-sm text-gray-100/30 py-2 px-2 text-center"
+        >
+          <span class="text-3xl text-indigo-400">{{ ActiveTasks() }}</span>
+          <p class="text-sm">Ativas</p>
+        </div>
+
+        <div
+          class="w-full bg-stone-900/40 ring-1 ring-gray-400/30 rounded-sm text-gray-100/30 py-2 px-2 text-center"
+        >
+          <span class="text-3xl text-green-400">{{ CompletedTasks() }}</span>
+          <p class="text-sm">Concluidas</p>
+        </div>
+      </div>
+
+      <div
+        class="input-container flex justify-between gap-0.5 min-w-11/12 lg:min-w-7/12 m-2 mx-auto"
+      >
+        <input
+          [(ngModel)]="NewTask"
+          type="text"
+          placeholder="Digite sua tarefa..."
+          class="w-full bg-zinc-800/40 border-zinc-700 text-blue-100 rounded-sm placeholder:text-zinc-500 py-2 px-3"
+        />]
+        <button
+          class="bg-indigo-600 min-w-12 h-12 rounded-md text-black text-3xl pb-0.5 transition hover:scale-90 cursor-pointer"
+          (click)="AddTask()"
+        >
+          +
+        </button>
+      </div>
+
+      <div class="selectbuttons-container flex gap-2 min-w-11/12 lg:min-w-7/12 m-2 mx-auto">
+        <button
+          [ngClass]="{ active: Activefilter == 'Total' }"
+          class="my-button ativo"
+          (click)="FilterButton('Total')"
+        >
+          Total
+        </button>
+        <button
+          [ngClass]="{ active: Activefilter == 'Actives' }"
+          class="my-button"
+          (click)="FilterButton('Actives')"
+        >
+          Ativas
+        </button>
+        <button
+          [ngClass]="{ active: Activefilter == 'Completed' }"
+          class="my-button"
+          (click)="FilterButton('Completed')"
+        >
+          Concluidas
+        </button>
+      </div>
+
+      <div class="list-container w-full h-full flex justify-center">
+        <div
+          class="list-content max-w-11/12 text-white min-w-11/12 lg:min-w-7/12 lg:max-w-96 mx-auto"
+        >
+          <ul class="flex flex-col gap-4">
+            <ng-container *ngFor="let task of TasklistFiltered">
+              <div
+                [ngClass]="{
+                  hidden:
+                    (task.completed == true && Activefilter == 'Actives') ||
+                    (task.completed == false && Activefilter == 'Completed')
+                }"
+                class="task-container bg-gray-500/20 rounded-xl text-2xl gap-5 p-5 items-center flex flex-row"
+              >
+                <div class="checkbox self-start mt-2">
+                  <p-checkbox
+                    inputId="size_small"
+                    name="size"
+                    value="small"
+                    [(ngModel)]="task.completed"
+                    [binary]="true"
+                  />
+                </div>
+
+                <li
+                  [ngClass]="{ hidden: EditMode == true, visible: EditMode == false }"
+                  [ngClass]="task.completed ? 'line-through text-gray-600/60' : ''"
+                  class="visible flex-1 self-start"
+                >
+                  {{ task.description }}
+                </li>
+
+                <input
+                  [ngClass]="{ visible: EditMode == true, hidden: EditMode == false }"
+                  [(ngModel)]="TaskEdit"
+                  type="text"
+                  placeholder="Digite sua tarefa..."
+                  class="hidden flex-1 mt-0.5 w-40 text-sm bg-zinc-800/40 text-blue-100 rounded-md placeholder:text-zinc-500 py-2 px-3"
+                />
+
+                <div class="flex flex-row gap-4 self-start mt-0.5">
+                  <lucide-icon
+                    (click)="EditTask(task)"
+                    [img]="Pencilicon"
+                    class="text-blue-400 cursor-pointer transition hover:scale-95"
+                  ></lucide-icon>
+                  <lucide-icon
+                    (click)="RemoveTask(task)"
+                    [img]="Trash2"
+                    class="text-red-500/70 cursor-pointer transition hover:scale-95"
+                  ></lucide-icon>
+                </div>
+              </div>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
     </div>
-
-
-
-
-
-
+  </div>
 </div>

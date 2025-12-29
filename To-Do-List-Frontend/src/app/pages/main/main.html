@@ -15,7 +15,7 @@
         class="status-container flex justify-between gap-4 min-w-11/12 lg:min-w-7/12 m-2 mx-auto">
         <div
           class="w-full bg-stone-900/40 ring-1 ring-gray-400/30 rounded-sm text-gray-100/30 py-2 px-2 text-center">
-          <span class="text-white text-3xl">{{ Tasklist.length }}</span>
+          <span class="text-white text-3xl">{{ taskList.length }}</span>
           <p class="text-sm">Total</p>
         </div>
 
@@ -51,23 +51,23 @@
       <div class="selectbuttons-container flex gap-2 min-w-11/12 lg:min-w-7/12 m-2 mx-auto">
        
         <button
-          [ngClass]="{ active: Activefilter == 'Total' }"
+          [ngClass]="{ active: activeFilter == 'Total' }"
           class="my-button ativo"
-          (click)="FilterButton('Total')">
+          (click)="RenderList('Total')">
           Total
         </button>
        
         <button
-          [ngClass]="{ active: Activefilter == 'Actives' }"
+          [ngClass]="{ active: activeFilter == 'Actives' }"
           class="my-button"
-          (click)="FilterButton('Actives')">
+          (click)="RenderList('Actives')">
           Ativas
         </button>
 
         <button
-          [ngClass]="{ active: Activefilter == 'Completed' }"
+          [ngClass]="{ active: activeFilter == 'Completed' }"
           class="my-button"
-          (click)="FilterButton('Completed')">
+          (click)="RenderList('Completed')">
           Concluidas
         </button>
 
@@ -77,35 +77,32 @@
         <div
           class="list-content max-w-11/12 text-white min-w-11/12 lg:min-w-7/12 lg:max-w-96 mx-auto" >
           <ul cdkDropList (cdkDropListDropped)="drop($event)" class="list flex flex-col gap-4 xl:gap-8  transform">
-            <ng-container *ngFor="let task of TasklistPages;">
+            <ng-container *ngFor="let task of taskList;">
               <div
                 cdkDrag
-                [ngClass]="{
-                  hidden:
-                    (task.completed == true && Activefilter == 'Actives') ||
-                    (task.completed == false && Activefilter == 'Completed')
-                }"
+                
                 class="task-container transform bg-gray-500/20 rounded-xl text-2xl gap-5 p-5 items-center flex flex-row transition hover:scale-105 hover:bg-black">
 
-                <div class="checkbox self-start mt-2" (click)="showMessageCompleteTask()">
-                  <p-checkbox 
+                <div class="checkbox self-start mt-2" (click)="showMessageCompleteTask(task)" >
+                  <p-checkbox  (onChange)="RenderList(activeFilter)"
                     inputId="size_small"
                     name="size"
                     value="small"
                     [(ngModel)]="task.completed"
                     [binary]="true"/>
+                    
                 </div>
 
                 <li 
-                  [ngClass]="{hidden: EditMode == true && task.id == Tasktoedit, visible: EditMode == false && task.id == Tasktoedit  }"
+                  [ngClass]="{hidden: editMode == true && task.id == taskToEdit, visible: editMode == false && task.id == taskToEdit  }"
                   [ngClass]="task.completed ? 'line-through text-gray-600/60' : ''"
                   class="tasks visible flex-1 self-start">
                   {{ task.description }}
                 </li>
 
                 <input
-                  [ngClass]="{ visible: EditMode == true && task.id == Tasktoedit  , hidden: EditMode == false || task.id != Tasktoedit}"
-                  [(ngModel)]="TaskEdit"
+                  [ngClass]="{ visible: editMode == true && task.id == taskToEdit  , hidden: editMode == false || task.id != taskToEdit}"
+                  [(ngModel)]="taskEdit"
                   type="text"
                   placeholder="Digite sua tarefa..."
                   class="hidden flex-1 mt-0.5 w-40 text-sm bg-zinc-800/40 text-blue-100 rounded-md placeholder:text-zinc-500 py-2 px-3"/>
@@ -136,7 +133,7 @@
         </div>
        
       </div>
-       <div class="paginator-container flex w-full  justify-center items-center"><p-paginator (onPageChange)="onPageChange($event)" [first]="0" [rows]="4" [totalRecords]="TasklistFiltered.length" /></div>
+       <div class="paginator-container flex w-full  justify-center items-center"><p-paginator (onPageChange)="onPageChange($event)" [first]="0" [rows]="4" [totalRecords]="20" /></div>
     </div>
   </div>
 </div>

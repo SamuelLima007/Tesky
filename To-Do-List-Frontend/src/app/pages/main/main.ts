@@ -27,83 +27,98 @@ import { MessageService } from 'primeng/api';
   templateUrl: './main.html',
   styleUrl: './main.css',
 })
-
 export class Main {
   readonly Trash2 = Trash2;
   readonly Pencilicon = PencilIcon;
   readonly Paginator = Paginator;
-  
+
   taskList: TaskInterface[] = [];
+  taskView: TaskInterface[] = [];
   NewTask: string = '';
   taskEdit: string = '';
   activeFilter: 'Total' | 'Actives' | 'Completed' = 'Total';
   editMode: boolean = false;
-  taskToEdit : number = -1;
+  taskToEdit: number = -1;
+  page: number = 0;
 
-  constructor(private _taskService : Taskservice, private _Messageservice : MessageService){}
-  
+  constructor(private _taskService: Taskservice, private _Messageservice: MessageService) {}
+
   ngOnInit(): void {
-    this.RenderList('Total');
+    this.Filter('Total');
   }
 
   drop(event: CdkDragDrop<TaskInterface[]>) {
-    moveItemInArray(this.taskList, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.taskView, event.previousIndex, event.currentIndex);
   }
 
   AddTask() {
-  
-   this.taskList = this._taskService.AddTask(this.NewTask, this.activeFilter)
-   this.NewTask = ''
-
+    this._taskService.AddTask(this.NewTask);
+    this.NewTask = '';
+    this.onPageChange();
   }
 
   EditTask(task: TaskInterface) {
-  this.editMode = !this.editMode
-  this.taskToEdit = task.id;
-   task = this._taskService.EditTask(task, this.taskEdit)
+    this.editMode = !this.editMode;
+    this.taskToEdit = task.id;
+    this._taskService.EditTask(task, this.taskEdit);
   }
 
   RemoveTask(task: TaskInterface) {
-   this.taskList = this._taskService.RemoveTask(task)
+    this._taskService.RemoveTask(task);
+    this.taskView = this.taskView.filter((x) => x.id != task.id);
+    this.onPageChange();
   }
 
-  RenderList(activeFilter : 'Total' | 'Actives' | 'Completed' ) {
-    this.activeFilter = activeFilter
-    this.taskList = this._taskService.RenderList(activeFilter)
+  Filter(activeFilter: 'Total' | 'Actives' | 'Completed'): TaskInterface[] {
+    this.activeFilter = activeFilter;
+    this.taskView = this._taskService.Filter(activeFilter);
+    this.page = 0;
+    this.onPageChange();
+
+    return this.taskView;
+  }
+
+  TotalTasks() {
+    return this._taskService.TotalTasks().length;
   }
 
   ActiveTasks() {
-    return this._taskService.ActiveTasks().length
+    return this._taskService.ActiveTasks().length;
   }
 
   CompletedTasks() {
-    return this._taskService.CompletedTasks().length
+    return this._taskService.CompletedTasks().length;
   }
 
-  showMessageCompleteTask(task : TaskInterface)
-  {
-      if (task.completed === false)
-      {        
-         this._Messageservice.clear();
-         this._Messageservice.add({
-         key:'tr',
-         severity:'success', 
-         summary:'Task Advice', 
-         detail:'Task Completa!'});
-      }
-      else
-        {
-         this._Messageservice.clear();
-         this._Messageservice.add({
-         key:'tr',
-         severity:'info', 
-         summary:'Task Advice', 
-         detail:'A Task foi reativada!'});
-        }
-  }
-
-   onPageChange(event : PaginatorState)
-    {
-      this.taskList = this._taskService.onPageChange(event)
+  MessageServiceCompleteTaskOrReativeTask(task: TaskInterface) {
+    if (task.completed === false) {
+      this._Messageservice.clear();
+      this._Messageservice.add({
+        key: 'tr',
+        severity: 'success',
+        summary: 'Task Advice',
+        detail: 'Task Completa!',
+      });
+    } else {
+      this._Messageservice.clear();
+      this._Messageservice.add({
+        key: 'tr',
+        severity: 'info',
+        summary: 'Task Advice',
+        detail: 'A Task foi reativada!',
+      });
     }
+  }
+
+  onPageChange(event?: PaginatorState) {
+    if (event?.page != undefined) {
+      this.page = event.page;
+    }
+
+    const totalTasks = this._taskService.Filter(this.activeFilter);
+    const Inicio = this.page * 4;
+    const fim = Inicio + 4;
+    this.taskList = totalTasks;
+    this.taskView = totalTasks.slice(Inicio, fim);
+  }
 }

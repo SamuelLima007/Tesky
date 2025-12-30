@@ -2,7 +2,14 @@
 module.exports = {
   content: ['./src/**/*.{html,ts}'],
   theme: {
-    extend: {fontFamily: {
+    extend: {
+      
+      screens: {
+  nesthub: '1024px', // ou 'max-width: 1024px'
+},
+      
+      
+      fontFamily: {
        
        poppins: ['Poppins-bold', 'sans-serif']
    

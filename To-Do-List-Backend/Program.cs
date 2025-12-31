@@ -1,9 +1,17 @@
+using DotNetEnv;
 using IdGen;
 using Microsoft.EntityFrameworkCore;
 using To_Do_List_Backend.Data;
+using To_Do_List_Backend.services;
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication("bearer").AddJwtBearer();
+
+builder.Services.AddTransient<TokenService>();
 
 builder.Services.AddOpenApi(); 
 builder.Services.AddDbContext<TaskDataContext>(options =>

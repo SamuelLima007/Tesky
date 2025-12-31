@@ -73,7 +73,7 @@ logs/
 Thumbs.db
 
 # ===============================
-# Outros
+# Variáveis de ambiente (IMPORTANTE)
 # ===============================
 .env
 .env.*

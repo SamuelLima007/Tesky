@@ -1,14 +1,12 @@
-<div class="container mx-auto w-full min-h-screen flex justify-center dark">
+<div class="container mx-auto w-full min-h-screen flex justify-center">
   <div class="content-container w-full flex mt-3">
     <div class="items flex flex-col gap-1 w-full">
+
+      <!-- Cabeçalho -->
       <div class="text-content text-center grid grid-cols-4">
         <div class="text-top col-start-2 col-end-4 flex flex-col gap-1">
-          <div>
-            <h1 class="text-5xl xl:text-3xl text-gray-900 dark:text-white font-bold">Tesky</h1>
-          </div>
-          <div>
-            <h2 class="text-sm text-gray-600 dark:text-blue-100/50">Organize suas tarefas</h2>
-          </div>
+          <h1 class="text-5xl xl:text-3xl text-gray-900 dark:text-white font-bold">Tesky</h1>
+          <h2 class="text-sm text-gray-600 dark:text-blue-100/50">Organize suas tarefas</h2>
         </div>
 
         <div class="icons-top flex flex-row col-start-4 col-end-5 gap-2 mt-1 ml-8 sm:ml-0 w-5 h-5">
@@ -24,41 +22,31 @@
         </div>
       </div>
 
-      <div
-        class="status-container flex justify-between gap-7 min-w-11/12 lg:min-w-7/12 m-2 mx-auto"
-      >
-        <div
-          class="w-full bg-white text-gray-600 border-gray-300 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-sm dark:text-gray-100/30 py-2 px-2 text-center"
-        >
+      <!-- Status das listas -->
+      <div class="status-container flex justify-between gap-7 min-w-11/12 lg:min-w-7/12 m-2 mx-auto">
+        <div class="w-full bg-white text-gray-600 border-gray-300 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-sm dark:text-gray-100/30 py-2 px-2 text-center">
           <span class="dark:text-white text-3xl">{{ TotalTasks() }}</span>
           <p class="text-sm">Total</p>
         </div>
-
-        <div
-          class="w-full bg-white text-gray-900 border-gray-300 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-sm dark:text-gray-100/30 py-2 px-2 text-center"
-        >
+        <div class="w-full bg-white text-gray-900 border-gray-300 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-sm dark:text-gray-100/30 py-2 px-2 text-center">
           <span class="text-3xl text-indigo-400">{{ ActiveTasks() }}</span>
           <p class="text-sm">Ativas</p>
         </div>
-
-        <div
-          class="w-full bg-white text-gray-900 border-gray-300/10 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-sm dark:text-gray-100/30 py-2 px-2 text-center"
-        >
+        <div class="w-full bg-white text-gray-900 border-gray-300/10 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-sm dark:text-gray-100/30 py-2 px-2 text-center">
           <span class="text-3xl text-green-400">{{ CompletedTasks() }}</span>
-          <p class="text-sm">Concluidas</p>
+          <p class="text-sm">Concluídas</p>
         </div>
       </div>
 
+      <!-- Inserir tarefas -->
       <div class="input-container flex justify-between gap-2 min-w-11/12 lg:min-w-7/12 m-2 mx-auto">
         <input
           [(ngModel)]="NewTask"
           type="text"
           placeholder="Digite sua tarefa..."
-          class="w-full ring-1 ring-gray-500/20 dark:bg-zinc-800/40 bg-white text-gray-900 dark:border-zinc-700 dark:text-blue-100 rounded-sm placeholder:text-gray-600 dark:placeholder:text-zinc-500 py-2 px-3"
+          class="w-full ring-1 ring-gray-500/20 bg-white text-gray-900 dark:bg-zinc-800/40 dark:border-zinc-700 dark:text-blue-100 rounded-sm placeholder:text-gray-600 dark:placeholder:text-zinc-500 py-2 px-3"
         />
-
-        <p-toast position="top-right" key="tr"> </p-toast>
-
+        <p-toast position="top-right" key="tr"></p-toast>
         <button
           label="Info"
           severity="info"
@@ -69,17 +57,15 @@
         </button>
       </div>
 
-      <div
-        class="selectbuttons-container flex gap-2 min-w-11/12 lg:min-w-7/12 m-2 mx-auto dark:text-gray-600"
-      >
+      <!-- Botões p filtro de lista -->
+      <div class="selectbuttons-container flex gap-2 min-w-11/12 lg:min-w-7/12 m-2 mx-auto dark:text-gray-600">
         <button
           [ngClass]="{ active: activeFilter == 'Total' }"
-          class="my-button ring-1 ring-gray-500/20 text-gray-600 ativo"
+          class="my-button ring-1 ring-gray-500/20 text-gray-600"
           (click)="Filter('Total')"
         >
           Total
         </button>
-
         <button
           [ngClass]="{ active: activeFilter == 'Actives' }"
           class="my-button ring-1 ring-gray-500/20 text-gray-600"
@@ -87,34 +73,26 @@
         >
           Ativas
         </button>
-
         <button
           [ngClass]="{ active: activeFilter == 'Completed' }"
           class="my-button ring-1 ring-gray-500/20 text-gray-600"
           (click)="Filter('Completed')"
         >
-          Concluidas
+          Concluídas
         </button>
       </div>
 
+      <!-- Lista de tasks -->
       <div class="list-container w-full h-full flex justify-center">
-        <div
-          class="list-content max-w-11/12 dark:text-white min-w-11/12 lg:min-w-7/12 lg:max-w-96 mx-auto"
-        >
-          <ul
-            cdkDropList
-            (cdkDropListDropped)="drop($event)"
-            class="list flex flex-col gap-4 xl:gap-8 transform"
-          >
+        <div class="list-content max-w-11/12 dark:text-white min-w-11/12 lg:min-w-7/12 lg:max-w-96 mx-auto">
+          
+          <ul cdkDropList (cdkDropListDropped)="drop($event)" class="list flex flex-col gap-4 xl:gap-6 transform">
             <ng-container *ngFor="let task of taskView">
               <div
                 cdkDrag
-                class="task-container transform bg-white hover:bg-gray-50 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-xl text-2xl gap-5 p-5 items-center flex flex-row transition hover:scale-105 dark:hover:bg-black"
+                class="task-container transform bg-gray-300/10 hover:bg-gray-50 dark:bg-stone-900/40 ring-2 ring-gray-500/20 dark:ring-gray-400/30 rounded-xl text-2xl gap-5 p-5 items-center flex flex-row transition hover:scale-105 dark:hover:bg-black"
               >
-                <div
-                  class="checkbox self-start mt-2"
-                  (click)="MessageServiceCompleteTaskOrReativeTask(task)"
-                >
+                <div class="checkbox self-start mt-2" (click)="MessageServiceCompleteTaskOrReativeTask(task)">
                   <p-checkbox
                     (onChange)="Filter(activeFilter)"
                     inputId="size_small"
@@ -127,28 +105,24 @@
 
                 <li
                   [ngClass]="{
-                    hidden: editMode == true && task.id == taskToEdit,
-                    visible: editMode == false && task.id == taskToEdit
+                    hidden: editMode && task.id == taskToEdit,
+                    visible: !editMode || task.id != taskToEdit,
+                    'line-through not-dark:text-gray-400 dark:text-gray-600/60': task.completed
                   }"
-                  [ngClass]="
-                    task.completed
-                      ? 'line-through not-dark:text-gray-400 dark:text-gray-600/60'
-                      : ''
-                  "
-                  class="tasks visible flex-1 self-start"
+                  class="tasks flex-1 self-start"
                 >
                   {{ task.description }}
                 </li>
 
                 <input
                   [ngClass]="{
-                    visible: editMode == true && task.id == taskToEdit,
-                    hidden: editMode == false || task.id != taskToEdit
+                    visible: editMode && task.id == taskToEdit,
+                    hidden: !editMode || task.id != taskToEdit
                   }"
                   [(ngModel)]="taskEdit"
                   type="text"
                   placeholder="Digite sua tarefa..."
-                  class="hidden flex-1 mt-0.5 w-40 text-sm bg-zinc-800/40 text-blue-100 rounded-md placeholder:text-zinc-500 py-2 px-3"
+                  class="flex-1 mt-0.5 w-40 text-sm bg-zinc-800/40 text-blue-100 rounded-md placeholder:text-zinc-500 py-2 px-3"
                 />
 
                 <div class="flex flex-row gap-4 self-start mt-0.5">
@@ -169,15 +143,18 @@
           </ul>
         </div>
       </div>
+
+      <!-- Paginacao -->
       <div class="paginator-container flex w-full justify-center items-center">
         <p-paginator
-          class="lightPaginator dark:darkPaginator"
+          [ngClass]="ligthMode ? 'lightPaginator' : 'darkPaginator'"
           (onPageChange)="onPageChange($event)"
           [first]="0"
           [rows]="rowsPerPage"
           [totalRecords]="taskList.length"
-        />
+        ></p-paginator>
       </div>
+
     </div>
   </div>
 </div>

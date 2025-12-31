@@ -5,6 +5,7 @@ input:focus {
 }
 
 @import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
 
 @font-face {
   font-family: 'Poppins-bold';
@@ -23,6 +24,7 @@ input:focus {
 }
 
 .darkPaginator {
+  border: none !important;
   background-color: rgba(9, 9, 11, 1) !important;
   color: white;
 }

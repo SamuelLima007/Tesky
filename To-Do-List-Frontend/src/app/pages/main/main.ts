@@ -50,43 +50,65 @@ export class Main {
   constructor(private _taskService: Taskservice, private _Messageservice: MessageService) {}
 
   ngOnInit(): void {
+   
     this.Filter('Total');
     this.updateRowsPerPage();
   }
 
+  //Itens por pagina de acordo com tamanho da tela
   @HostListener('window:resize', ['$event'])
   updateRowsPerPage(event?: Event) {
     const screenHeight = window.innerHeight;
 
-    switch (true) {
-      case screenHeight < 700:
-        this.rowsPerPage = 4;
-        break;
-
-      case screenHeight > 740 && screenHeight < 900:
-        this.rowsPerPage = 6;
-        break;
-
-      case screenHeight > 843:
-        this.rowsPerPage = 7;
-        break;
-
-      case screenHeight > 1000 && screenHeight < 1100:
-        this.rowsPerPage = 2;
-        break;
-    }
-
-    this.onPageChange();
+      if (screenHeight < 600) {
+    
+    this.rowsPerPage = 3;
+    
+  } else if (screenHeight < 700) {
+   
+    this.rowsPerPage = 4;
+    
+  } else if (screenHeight < 850) {
+   
+    this.rowsPerPage = 4;
+    
+  } else if (screenHeight < 950) {
+    
+    this.rowsPerPage = 6;
+    
+  } else if (screenHeight < 1100) {
+    
+    this.rowsPerPage = 7;
+    
+  } else if (screenHeight < 1300) {
+  
+    this.rowsPerPage = 9;
+    
+  } else if (screenHeight < 1500) {
+    
+    this.rowsPerPage = 11;
+    
+  } else {
+    
+    this.rowsPerPage = 13;
   }
 
+  this.onPageChange();
+}
+
+   
+// Função para configurar troca de tema
   switchTeme() {
     this.ligthMode = !this.ligthMode;
-  }
 
+    if (this.ligthMode === true) {document.body.classList.remove('dark'); }   
+    else{ document.body.classList.add('dark'); }
+  }
+// Função Drag and drop
   drop(event: CdkDragDrop<TaskInterface[]>) {
     moveItemInArray(this.taskView, event.previousIndex, event.currentIndex);
   }
-
+// Funcoes de task 
   AddTask() {
     this._taskService.AddTask(this.NewTask);
     this.NewTask = '';
@@ -146,6 +168,7 @@ export class Main {
     }
   }
 
+  // Funcao paginacao
   onPageChange(event?: PaginatorState) {
     if (event?.page != undefined) {
       this.page = event.page;

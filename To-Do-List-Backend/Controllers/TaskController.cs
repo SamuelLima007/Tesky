@@ -31,37 +31,27 @@ public  IActionResult GetTasks()
       return Ok(Lista);
     
     }
-    
-
       [HttpPost]
         public async Task<IActionResult> CreateTask([FromBody] TaskModel task)
         {
-
-                  
-
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
-            return Ok(task);
-         
+            return Ok(task); 
         }
 
-      
       [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTask(long id)
         {
             var TaskToDelete = await _context.Tasks.FindAsync(id);
-
             if (TaskToDelete == null)
             {
                 return NotFound();
             }
-
             _context.Remove(TaskToDelete);
             await _context.SaveChangesAsync();
             return Ok();
         }
 
-     
-     
+
     }
 }

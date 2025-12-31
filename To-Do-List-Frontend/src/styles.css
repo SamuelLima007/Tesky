@@ -1,24 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
 
-input:focus
-{
-    outline: none
+input:focus {
+  outline: none;
 }
 
-
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @font-face {
-    font-family: "Poppins-bold";
-    src: url("./fonts/Poppins-Bold.ttf") format("opentype");
-    font-style: normal;
-    font-display: swap;
+  font-family: 'Poppins-bold';
+  src: url('./fonts/Poppins-Bold.ttf') format('opentype');
+  font-style: normal;
+  font-display: swap;
 }
 
-
-.p-toast-message-icon
-{
-    margin-top: 2.7px;
+.p-toast-message-icon {
+  margin-top: 2.7px;
+}
+.lightPaginator {
+  background-color: rgba(243, 244, 246, 0.5) !important;
+  border: none !important;
+  color: black;
 }
 
-
+.darkPaginator {
+  background-color: rgba(9, 9, 11, 1) !important;
+  color: white;
+}

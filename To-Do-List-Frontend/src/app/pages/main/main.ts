@@ -10,7 +10,8 @@ import { ToastModule } from 'primeng/toast';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Taskservice } from '../../services/task/taskservice';
 import { MessageService } from 'primeng/api';
-
+import { SunMoonIcon } from 'lucide-angular';
+import { LogOutIcon } from 'lucide-angular';
 
 @Component({
   selector: 'app-main',
@@ -32,6 +33,8 @@ export class Main {
   readonly Trash2 = Trash2;
   readonly Pencilicon = PencilIcon;
   readonly Paginator = Paginator;
+  readonly SunMoonIcon = SunMoonIcon;
+  readonly LogOutIcon = LogOutIcon;
 
   taskList: TaskInterface[] = [];
   taskView: TaskInterface[] = [];
@@ -41,45 +44,44 @@ export class Main {
   editMode: boolean = false;
   taskToEdit: number = -1;
   page: number = 0;
-   rowsPerPage: number = 7;
+  rowsPerPage: number = 7;
+  ligthMode: boolean = false;
 
   constructor(private _taskService: Taskservice, private _Messageservice: MessageService) {}
 
   ngOnInit(): void {
     this.Filter('Total');
-    this.updateRowsPerPage()
+    this.updateRowsPerPage();
   }
 
   @HostListener('window:resize', ['$event'])
   updateRowsPerPage(event?: Event) {
-  const screenHeight = window.innerHeight;
+    const screenHeight = window.innerHeight;
 
-  switch(true)
-  {
-     case screenHeight < 700 :
-      this.rowsPerPage = 4
-      break;
+    switch (true) {
+      case screenHeight < 700:
+        this.rowsPerPage = 4;
+        break;
 
-      case screenHeight > 740 && screenHeight < 900 :
-        this.rowsPerPage = 6
-      break;
+      case screenHeight > 740 && screenHeight < 900:
+        this.rowsPerPage = 6;
+        break;
 
-      case screenHeight > 843 :
-        this.rowsPerPage = 7
-      break;
+      case screenHeight > 843:
+        this.rowsPerPage = 7;
+        break;
 
-      case screenHeight > 1000 && screenHeight < 1100 :
-        this.rowsPerPage = 2
-      break;
+      case screenHeight > 1000 && screenHeight < 1100:
+        this.rowsPerPage = 2;
+        break;
+    }
+
+    this.onPageChange();
   }
- 
 
-
-  
-  this.onPageChange();
-}
-  
-
+  switchTeme() {
+    this.ligthMode = !this.ligthMode;
+  }
 
   drop(event: CdkDragDrop<TaskInterface[]>) {
     moveItemInArray(this.taskView, event.previousIndex, event.currentIndex);
@@ -145,8 +147,6 @@ export class Main {
   }
 
   onPageChange(event?: PaginatorState) {
-
-    
     if (event?.page != undefined) {
       this.page = event.page;
     }
@@ -157,8 +157,4 @@ export class Main {
     this.taskList = totalTasks;
     this.taskView = totalTasks.slice(Inicio, fim);
   }
-
- 
- 
 }
-

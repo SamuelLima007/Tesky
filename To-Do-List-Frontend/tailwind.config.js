@@ -1,18 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{html,ts}'],
+  content: ['./src/**/*.{html,ts}', './src/index.html'],
   theme: {
     extend: {
-      
-      screens: {
-  nesthub: '1024px', // ou 'max-width: 1024px'
-},
-      
-      
       fontFamily: {
-       
-       poppins: ['Poppins-bold', 'sans-serif']
-   
+        poppins: ['Poppins-bold', 'sans-serif'],
       },
       colors: {
         background: 'oklch(0.99 0 0)',
@@ -24,4 +16,5 @@ module.exports = {
     },
   },
   plugins: [],
+  darkMode: 'class',
 };

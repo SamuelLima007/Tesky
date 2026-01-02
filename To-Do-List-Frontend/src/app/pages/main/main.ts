@@ -12,6 +12,7 @@ import { Taskservice } from '../../services/task/taskservice';
 import { MessageService } from 'primeng/api';
 import { SunMoonIcon } from 'lucide-angular';
 import { LogOutIcon } from 'lucide-angular';
+import { Authservice } from '../../services/Auth/authservice';
 
 @Component({
   selector: 'app-main',
@@ -47,7 +48,7 @@ export class Main {
   rowsPerPage: number = 7;
   ligthMode: boolean = false;
 
-  constructor(private _taskService: Taskservice, private _Messageservice: MessageService) {}
+  constructor(private _taskService: Taskservice, private _Messageservice: MessageService, private _authservice : Authservice) {}
 
   ngOnInit(): void {
    
@@ -179,5 +180,10 @@ export class Main {
     const fim = Inicio + this.rowsPerPage;
     this.taskList = totalTasks;
     this.taskView = totalTasks.slice(Inicio, fim);
+  }
+
+  Loggout()
+  {
+    this._authservice.loggout()
   }
 }

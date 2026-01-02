@@ -1,0 +1,9 @@
+.FieldForm
+{
+    background-color: white;
+    border: 5px solid;
+    border-color: rgb(209, 48, 48);
+    color: red;
+    padding: 5px; 
+    margin-top: 12px;
+}

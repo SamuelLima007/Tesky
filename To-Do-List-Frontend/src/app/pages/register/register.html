@@ -5,35 +5,64 @@
         <div class="text-container flex flex-col items-center gap-2">
 
              <circle-icon></circle-icon>
-             <div><h1 class="text-3xl xl:text-3xl text-blue-100">Register</h1></div>
+             <div><h1 class="text-3xl xl:text-3xl text-blue-100">Fazer Registro</h1></div>
              <div><h2 class="text-md text-blue-100/50" >Crie sua conta para começar</h2></div>
 
         </div>
 
 
-        <form class="flex w-full justify-center font-semibold " #form="ngForm" (ngSubmit)="onSubmit()">
+        <form class="flex w-full justify-center font-semibold " #form="ngForm" (ngSubmit)="register(form)">
 
              <div class="form-container flex flex-col min-w-9/12 sm:min-w-8/12 lg:min-w-6/12 xl:min-w-5/12 2xl:min-w-4/12   gap-5 bg-stone-900/40 ring-1  ring-gray-400/30 p-4  ">
              
                   <div class="form-group flex flex-col text-start gap-0.5">
-                    <label for="nome" class="text-blue-100/90 ">Nome</label>
-                    <input type="text" placeholder="Seu nome" class="bg-stone-900/40 ring-1  ring-gray-400/30 rounded-sm  text-white font-normal placeholder:font-extralight placeholder:text-gray-300/20  py-2 px-2">
+                    <label for="name" class="text-blue-100/90 ">Nome</label>
+                    <input type="text" id="name" [(ngModel)]="User.name" #name="ngModel" required name="name" placeholder="Seu nome" class="bg-stone-900/40 ring-1  ring-gray-400/30 rounded-sm  text-white font-normal placeholder:font-extralight placeholder:text-gray-300/20  py-2 px-2">
+
+                        <ng-container *ngIf="form.submitted">
+
+                        <ng-container *ngIf="name.errors?.['required']">
+                                  <p-message severity="error" variant="simple" size="small">Nome é obrigatório!</p-message>
+                        </ng-container>
+                  
+                        </ng-container>
+                    
                 </div>
 
 
                 <div class="form-group flex flex-col text-start gap-0.5">
                     <label for="email" class="text-blue-100/90 ">Email</label>
-                    <input type="text" placeholder="seu@email.com" class="bg-stone-900/40 ring-1  ring-gray-400/30 rounded-sm  text-white font-normal placeholder:font-extralight placeholder:text-gray-300/20  py-2 px-2">
+                    <input type="email" id="email" [(ngModel)]="User.email" required #email="ngModel" name="email" placeholder="seu@email.com" class="bg-stone-900/40 ring-1  ring-gray-400/30 rounded-sm  text-white font-normal placeholder:font-extralight placeholder:text-gray-300/20  py-2 px-2">
+
+                    <ng-container *ngIf="form.submitted ">
+
+                        <ng-container *ngIf="email.errors?.['required']">
+                                  <p-message severity="error" variant="simple" size="small">Email é obrigatório!</p-message>
+                        </ng-container>
+
+                        <ng-container *ngIf="email.errors?.['pattern']">
+                                  <p-message severity="error" variant="simple" size="small">Email inválido!</p-message>
+                        </ng-container>
+                  
+                    </ng-container>
+                    
                 </div>
 
                 <div class="form-group flex flex-col text-start gap-0.5">
-                    <label for="email" class="text-blue-100/90">Senha</label>
-                    <input type="text" placeholder="********" class="bg-stone-900/40 ring-1  ring-gray-400/30 rounded-sm  text-white font-normal placeholder:font-extralight placeholder:text-gray-300/20  py-2 px-2">
+                    <label for="password" class="text-blue-100/90">Senha</label>
+                    <input type="text" id="password" [(ngModel)]="User.password" #password="ngModel" required name="password" placeholder="********" class="bg-stone-900/40 ring-1  ring-gray-400/30 rounded-sm  text-white font-normal placeholder:font-extralight placeholder:text-gray-300/20  py-2 px-2">
+                    
+                        <ng-container *ngIf="form.submitted && password.errors?.['required']">
+                        <p-message severity="error" variant="simple" size="small">Senha é obrigatória!</p-message>
+
+
+                    </ng-container>
+                    
                 </div>
                 
                 <div class="form-group-text flex flex-col justify-center text-center gap-2">
 
-                  <button class="bg-indigo-600  h-11 rounded-md hover:cursor-pointer hover:bg-indigo-900 transition-all duration-300 text-blue-100">Entrar</button>
+                  <button class="bg-indigo-600  h-11 rounded-md hover:cursor-pointer hover:bg-indigo-900 transition-all duration-300 text-blue-100">Registrar</button>
                    <h2 class="text-blue-100/60">Já tem conta? <a [routerLink]="[ '/login' ]" class="text-indigo-600">Entrar</a> </h2>
                 </div>
 

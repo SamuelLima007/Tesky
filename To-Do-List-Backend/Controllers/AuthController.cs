@@ -77,5 +77,13 @@ namespace To_Do_List_Backend.Controllers
         }
 
 
+           [Authorize]
+           [HttpGet("Login")]
+        public async Task<IActionResult> IsLogged()
+        {
+            return Ok();
+        }
+
+
     }
 }

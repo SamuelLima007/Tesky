@@ -3520,19 +3520,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\samuel.lsilva\\.nuget\\packages\\": {}
+    "C:\\Users\\samu\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\samuel.lsilva\\Desktop\\MeuProjetoFaculdade\\Tesky\\To-Do-List-Backend\\To-Do-List-Backend.csproj",
+      "projectUniqueName": "C:\\Users\\samu\\Desktop\\PROJETOS\\Tesky\\To-Do-List-Backend\\To-Do-List-Backend.csproj",
       "projectName": "To-Do-List-Backend",
-      "projectPath": "C:\\Users\\samuel.lsilva\\Desktop\\MeuProjetoFaculdade\\Tesky\\To-Do-List-Backend\\To-Do-List-Backend.csproj",
-      "packagesPath": "C:\\Users\\samuel.lsilva\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\samuel.lsilva\\Desktop\\MeuProjetoFaculdade\\Tesky\\To-Do-List-Backend\\obj\\",
+      "projectPath": "C:\\Users\\samu\\Desktop\\PROJETOS\\Tesky\\To-Do-List-Backend\\To-Do-List-Backend.csproj",
+      "packagesPath": "C:\\Users\\samu\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\samu\\Desktop\\PROJETOS\\Tesky\\To-Do-List-Backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\samuel.lsilva\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\samu\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -4039,7 +4039,7 @@
       "code": "NU1510",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "PackageReference Microsoft.AspNetCore.Identity will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
+      "message": "PackageReference Microsoft.AspNetCore.Identity não será podado. Considere remover este pacote das dependências, pois ele provavelmente é desnecessário.",
       "libraryId": "Microsoft.AspNetCore.Identity",
       "targetGraphs": [
         "net10.0"

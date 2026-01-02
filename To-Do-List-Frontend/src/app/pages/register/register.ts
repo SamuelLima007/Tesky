@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Icon } from '../../Components/icon/icon';
 import { Userinterface } from '../../interfaces/userinterface';
-import { FormsModule } from "@angular/forms";
-import { RouterLink,  RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { RouterLink, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,11 +11,7 @@ import { RouterLink,  RouterModule } from '@angular/router';
   styleUrl: './register.css',
 })
 export class Register {
+  private ApiUrl = 'http://localhost:5195/register';
 
-
-  onSubmit()
-  {
-
-  }
-
+  onSubmit() {}
 }

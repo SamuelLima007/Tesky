@@ -9,15 +9,14 @@ import { Login } from './pages/login/login';
 import { Register } from './pages/register/register';
 
 import { Main } from './pages/main/main';
+import { authGuard } from './guards/auth/authguard-guard';
 
-export const routes: Routes = 
-[
-    { path: '', component: Home },
-    
-    { path: 'login', component: Login },
+export const routes: Routes = [
+  { path: '', component: Home },
 
-    { path: 'register', component: Register },
+  { path: 'login', component: Login },
 
-    { path: 'main', component: Main }
-   
+  { path: 'register', component: Register },
+
+  { path: 'main', canActivate: [authGuard], component: Main },
 ];

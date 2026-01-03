@@ -8,6 +8,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { Message, MessageModule } from 'primeng/message';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Authservice } from '../../services/Auth/authservice';
 
 @Component({
   selector: 'app-register',
@@ -16,10 +17,12 @@ import { Router } from '@angular/router';
   styleUrl: './register.css',
 })
 export class Register {
-  private ApiUrl = 'http://localhost:5195/register';
-  LoginMensagemErro = false
+  private ApiUrl : string = 'http://localhost:5195/register';
+  LoginMensagemErro : boolean = false
+  errorMessage : string = ''
+  emailTested : string = ''
 
-  constructor(private http : HttpClient, private cdr : ChangeDetectorRef, private router : Router){}
+  constructor(private http : HttpClient, private cdr : ChangeDetectorRef, private router : Router, private _authservice : Authservice){}
 
   User : Userinterface = {name: '', email: '', password: ''}
 
@@ -38,7 +41,9 @@ export class Register {
         },
         error: (err) => 
         {
+          this.emailTested = this.User.email
           this.LoginMensagemErro = true;
+          this.errorMessage = err.error
           this.cdr.detectChanges()
         }
       }

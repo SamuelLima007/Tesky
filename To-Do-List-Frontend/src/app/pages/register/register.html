@@ -32,7 +32,7 @@
 
                 <div class="form-group flex flex-col text-start gap-0.5">
                     <label for="email" class="text-blue-100/90 ">Email</label>
-                    <input type="email" id="email" [(ngModel)]="User.email" required #email="ngModel" name="email" placeholder="seu@email.com" class="bg-stone-900/40 ring-1  ring-gray-400/30 rounded-sm  text-white font-normal placeholder:font-extralight placeholder:text-gray-300/20  py-2 px-2">
+                    <input type="email" id="email" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*$" [(ngModel)]="User.email" required #email="ngModel" name="email" placeholder="seu@email.com" class="bg-stone-900/40 ring-1  ring-gray-400/30 rounded-sm  text-white font-normal placeholder:font-extralight placeholder:text-gray-300/20  py-2 px-2">
 
                     <ng-container *ngIf="form.submitted ">
 
@@ -43,6 +43,12 @@
                         <ng-container *ngIf="email.errors?.['pattern']">
                                   <p-message severity="error" variant="simple" size="small">Email inválido!</p-message>
                         </ng-container>
+
+                        <ng-container *ngIf="emailTested != '' && emailTested == User.email">
+                             <p-message severity="error" variant="simple" size="small">{{errorMessage}}</p-message>
+
+                             
+                        </ng-container>
                   
                     </ng-container>
                     
@@ -50,13 +56,15 @@
 
                 <div class="form-group flex flex-col text-start gap-0.5">
                     <label for="password" class="text-blue-100/90">Senha</label>
-                    <input type="text" id="password" [(ngModel)]="User.password" #password="ngModel" required name="password" placeholder="********" class="bg-stone-900/40 ring-1  ring-gray-400/30 rounded-sm  text-white font-normal placeholder:font-extralight placeholder:text-gray-300/20  py-2 px-2">
+                    <input type="password" id="password" [(ngModel)]="User.password" #password="ngModel" required minlength="8" name="password" placeholder="********" class="bg-stone-900/40 ring-1  ring-gray-400/30 rounded-sm  text-white font-normal placeholder:font-extralight placeholder:text-gray-300/20  py-2 px-2">
                     
                         <ng-container *ngIf="form.submitted && password.errors?.['required']">
                         <p-message severity="error" variant="simple" size="small">Senha é obrigatória!</p-message>
+                      </ng-container>
 
-
-                    </ng-container>
+                      <ng-container *ngIf="password.errors?.['minlength'] && password.touched">
+                        <p-message severity="error" variant="simple" size="small">A senha precisa conter no minímo 8 caracteres!</p-message>
+                      </ng-container>
                     
                 </div>
                 

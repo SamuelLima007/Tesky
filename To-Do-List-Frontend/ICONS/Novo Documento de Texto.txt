@@ -1,7 +1,0 @@
-**Search** - Para a barra de busca
-**Cloud** - Ícone principal do clima
-**MapPin** - Localização da cidade
-**Droplets** - Umidade
-**Wind** - Velocidade do vento
-**Eye** - Visibilidade
-**Gauge** - Pressão atmosférica

@@ -91,9 +91,9 @@
             <ng-container *ngFor="let task of taskView">
               <div
                 cdkDrag
-                class="task-container transform bg-gray-300/10 hover:bg-gray-50 dark:bg-stone-900/40 ring-2 ring-gray-500/20 dark:ring-gray-400/30 rounded-xl text-2xl gap-5 p-5 items-center flex flex-row transition hover:scale-105 dark:hover:bg-black"
+                class="task-container transform bg-gray-300/80 hover:bg-gray-50 dark:bg-stone-900/40 ring-2 ring-gray-500/80 dark:ring-gray-400/30 rounded-xl text-2xl gap-5 p-5 flex flex-row transition hover:scale-105 dark:hover:bg-black"
               >
-                <div class="checkbox self-start mt-2" (click)="MessageServiceCompleteTaskOrReativeTask(task)">
+                <div class="checkbox flex items-center mt-0.5" (click)="MessageServiceCompleteTaskOrReativeTask(task)">
                   <p-checkbox
                     (onChange)="Filter(activeFilter)"
                     inputId="size_small"
@@ -110,7 +110,7 @@
                     visible: !editMode || task.id != taskToEdit,
                     'line-through not-dark:text-gray-400 dark:text-gray-600/60': task.completed
                   }"
-                  class="tasks flex-1 self-start"
+                  class="tasks flex-1 items-center"
                 >
                   {{ task.description }}
                 </li>
@@ -126,7 +126,7 @@
                   class="flex-1 mt-0.5 w-40 text-sm bg-zinc-800/40 text-blue-100 rounded-md placeholder:text-zinc-500 py-2 px-3"
                 />
 
-                <div class="flex flex-row gap-4 self-start mt-0.5">
+                <div class="flex flex-row gap-4 items-center ">
                   <lucide-icon
                     (click)="EditTask(task)"
                     [img]="Pencilicon"

@@ -40,7 +40,7 @@ namespace To_Do_List_Backend.services
          private static ClaimsIdentity GenerateClaims(UserModel user)
         {
             var ci = new ClaimsIdentity();
-            ci.AddClaim(new Claim(ClaimTypes.Name, user.email)); 
+            ci.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.id.ToString())); 
             return ci;
 
         }

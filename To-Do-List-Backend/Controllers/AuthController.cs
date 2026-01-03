@@ -63,7 +63,7 @@ namespace To_Do_List_Backend.Controllers
            var RegisterRequest = await _context.Users.FirstOrDefaultAsync((x) => x.email == user.email);
            if (RegisterRequest != null)
             {
-                return Conflict("Usuário já cadastrado!");
+                return Conflict("Email já cadastrado!");
             }
             else
             {

@@ -37,21 +37,5 @@ export class Authservice {
     return !!this.GetToken();
   }
 
-   handleError(http : HttpErrorResponse)
-  {
-
-    switch(http.status)
-
-    {
-       case 404:
-        return "Usuário não encontrado, faça se registro"
-
-        case 401:
-        return "Usuário não Autorizado"
-
-        default:
-          return ''
-    }
-
-  }
+ 
 }

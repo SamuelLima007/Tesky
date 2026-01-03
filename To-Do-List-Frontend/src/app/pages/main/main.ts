@@ -13,6 +13,8 @@ import { MessageService } from 'primeng/api';
 import { SunMoonIcon } from 'lucide-angular';
 import { LogOutIcon } from 'lucide-angular';
 import { Authservice } from '../../services/Auth/authservice';
+import { ChangeDetectorRef } from '@angular/core';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-main',
@@ -31,6 +33,7 @@ import { Authservice } from '../../services/Auth/authservice';
   styleUrl: './main.css',
 })
 export class Main {
+  @ViewChild(Paginator) paginator!: Paginator;
   readonly Trash2 = Trash2;
   readonly Pencilicon = PencilIcon;
   readonly Paginator = Paginator;
@@ -47,12 +50,13 @@ export class Main {
   page: number = 0;
   rowsPerPage: number = 7;
   ligthMode: boolean = false;
+  firstPage:number = 4;
 
-  constructor(private _taskService: Taskservice, private _Messageservice: MessageService, private _authservice : Authservice) {}
+  constructor(private _taskService: Taskservice, private _Messageservice: MessageService, private _authservice : Authservice, private cdr : ChangeDetectorRef) {}
 
   ngOnInit(): void {
    
-    this.Filter('Total');
+    
     this.updateRowsPerPage();
   }
 
@@ -109,7 +113,7 @@ export class Main {
   drop(event: CdkDragDrop<TaskInterface[]>) {
     moveItemInArray(this.taskView, event.previousIndex, event.currentIndex);
   }
-// Funcoes de task 
+// Funcoes crud de task abertura
   AddTask() {
     this._taskService.AddTask(this.NewTask);
     this.NewTask = '';
@@ -118,8 +122,20 @@ export class Main {
 
   EditTask(task: TaskInterface) {
     this.editMode = !this.editMode;
+    let edit = this.taskEdit
+
+    if(this.editMode == true)
+    {
+    this.taskEdit = task.description;
     this.taskToEdit = task.id;
-    this._taskService.EditTask(task, this.taskEdit);
+    }
+
+    else if (task.id == this.taskToEdit)
+    {
+    this._taskService.EditTask(task, edit);
+     edit = '';
+    }
+    
   }
 
   RemoveTask(task: TaskInterface) {
@@ -131,9 +147,9 @@ export class Main {
   Filter(activeFilter: 'Total' | 'Actives' | 'Completed'): TaskInterface[] {
     this.activeFilter = activeFilter;
     this.taskView = this._taskService.Filter(activeFilter);
-    this.page = 0;
+   
+   this.paginator.changePage(0);
     this.onPageChange();
-
     return this.taskView;
   }
 
@@ -148,6 +164,8 @@ export class Main {
   CompletedTasks() {
     return this._taskService.CompletedTasks().length;
   }
+
+
 
   MessageServiceCompleteTaskOrReativeTask(task: TaskInterface) {
     if (task.completed === false) {
@@ -174,12 +192,13 @@ export class Main {
     if (event?.page != undefined) {
       this.page = event.page;
     }
-
     const totalTasks = this._taskService.Filter(this.activeFilter);
     const Inicio = this.page * this.rowsPerPage;
     const fim = Inicio + this.rowsPerPage;
     this.taskList = totalTasks;
     this.taskView = totalTasks.slice(Inicio, fim);
+    this.taskView = [...this.taskView]
+    this.cdr.detectChanges()
   }
 
   Loggout()

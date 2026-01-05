@@ -13,7 +13,7 @@ using To_Do_List_Backend.Models;
 
 namespace To_Do_List_Backend.Controllers
 {
-    [Route("[controller]")]
+    
     public class TaskController : ControllerBase
     {
        private readonly TaskDataContext _context;
@@ -26,30 +26,49 @@ namespace To_Do_List_Backend.Controllers
        }
 
 
-    [HttpGet]
+    [Authorize]
+    [HttpGet("tasks")]
     public  IActionResult GetTasks()
     {
       var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var userid = int.Parse(id);
-
-      var Lista = _context.Tasks.Where((x) => x.UserId == userid);
-      return Ok(Lista);
+      
+ 
+      var tasklist = _context.Tasks.Where((x) => x.UserId == userid);
+      return Ok(tasklist);
     
     }
 
       [Authorize]
-      [HttpPost]
+      [HttpPost("createtasks")]
         public async Task<IActionResult> CreateTask([FromBody] TaskModel task)
         {
           var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
           var userid = int.Parse(id);
-       
-           task.UserId = userid;
+          if(task == null)
+      {
+        Console.WriteLine("task null");
+      }
 
-            _context.Tasks.Add(task);
+          var newtask = new TaskModel
+          {
+           
+            Description = task.Description,
+            Completed = task.Completed,
+            UserId = userid,
+          };
+       
+           
+            await _context.Tasks.AddAsync(newtask);
+
             await _context.SaveChangesAsync();
-            return Ok(task); 
+
+            var newlist = GetTasks();
+
+           
+            return Ok(newlist);
         }
+
 
       [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTask(int id)
@@ -63,5 +82,16 @@ namespace To_Do_List_Backend.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
+
+
+        public async Task<IActionResult> UpdateTask (int id, string description, bool completed)
+       {
+
+        var task = _context.Tasks.Find(id);
+        task.Description = description;
+        task.Completed = completed;
+        return Ok();
+      
+       } 
     }
 }

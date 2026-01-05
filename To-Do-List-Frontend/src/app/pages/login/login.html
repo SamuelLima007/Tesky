@@ -17,7 +17,7 @@
              
                 <div class="form-group flex flex-col text-start gap-0.5">
                     <label for="email" class="text-blue-100/90 ">Email</label>
-                    <input id="email"  [(ngModel)]="User.email" #email="ngModel" name="email" required  placeholder="seu@email.com" class="bg-stone-900/40 ring-1  ring-gray-400/30 rounded-sm  text-white font-normal placeholder:font-extralight placeholder:text-gray-300/20  py-2 px-2 ">
+                    <input id="email"   [(ngModel)]="User.email" #email="ngModel" name="email" required  placeholder="seu@email.com" class="bg-stone-900/40 ring-1  ring-gray-400/30 rounded-sm  text-white font-normal placeholder:font-extralight placeholder:text-gray-300/20  py-2 px-2 " pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?)*$" >
                   
                     <ng-container *ngIf="form.submitted ">
 

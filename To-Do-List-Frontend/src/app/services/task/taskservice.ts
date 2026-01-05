@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Taskservice {
 
-  private ApiUrl : string = 'http://localhost:5195/'
+  private ApiUrl : string = 'http://localhost:5195'
 
   taskList: TaskInterface[] = [];
   
@@ -19,13 +19,29 @@ export class Taskservice {
 
   AddTask(newTask: string) {
     if (newTask != '') {
-      let task: TaskInterface = {
-        id: Date.now(),
+      const date = new Date();
+      let task : TaskInterface = {
+        id: 0,
         description: newTask,
-        completed: false,
+        completed: true,
       };
-      this.taskList.push(task);
 
+      
+
+      this.http.post<TaskInterface[]>(`${this.ApiUrl}/createtasks`, task).subscribe(
+        {
+          next: (res) => {
+               
+              this.taskList = res
+              console.log(this.taskList)
+             
+          },
+          error: (err) =>
+          {
+            console.log(err);
+          }
+        }
+      )
       this.ShowMessageService.showMessageAddTask();
     } else {
       this.ShowMessageService.showMessageTaskNull();
@@ -33,15 +49,15 @@ export class Taskservice {
   }
   
   GetTaskList() {
-  this.http.get<{tasks : TaskInterface[]}>(`${this.ApiUrl}getTask`).subscribe(
+  this.http.get<TaskInterface[]>(`${this.ApiUrl}getTask`).subscribe(
     {
       next: (res) => 
       {
-       this.taskList = res.tasks
+       this.taskList = res
       },
       error : (err) =>
       {
-        console.log(err)
+      
       }
     },
   )

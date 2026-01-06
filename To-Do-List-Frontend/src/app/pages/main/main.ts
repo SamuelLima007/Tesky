@@ -40,7 +40,6 @@ export class Main {
   readonly SunMoonIcon = SunMoonIcon;
   readonly LogOutIcon = LogOutIcon;
 
-  taskList: TaskInterface[] = [];
   taskView: TaskInterface[] = [];
   NewTask: string = '';
   taskEdit: string = '';
@@ -50,14 +49,20 @@ export class Main {
   page: number = 0;
   rowsPerPage: number = 7;
   ligthMode: boolean = false;
-  firstPage:number = 4;
+  firstPage: number = 4;
+  totalTasks: number = 0;
+  activeTasks: number = 0;
+  completedTasks: number = 0;
 
-  constructor(private _taskService: Taskservice, private _Messageservice: MessageService, private _authservice : Authservice, private cdr : ChangeDetectorRef) {}
+  constructor(
+    private _taskService: Taskservice,
+    private _Messageservice: MessageService,
+    private _authservice: Authservice,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-   
-    
-    this.updateRowsPerPage();
+    this.loadTasks();
   }
 
   //Itens por pagina de acordo com tamanho da tela
@@ -65,107 +70,95 @@ export class Main {
   updateRowsPerPage(event?: Event) {
     const screenHeight = window.innerHeight;
 
-      if (screenHeight < 600) {
-    
-    this.rowsPerPage = 3;
-    
-  } else if (screenHeight < 700) {
-   
-    this.rowsPerPage = 4;
-    
-  } else if (screenHeight < 850) {
-   
-    this.rowsPerPage = 4;
-    
-  } else if (screenHeight < 950) {
-    
-    this.rowsPerPage = 6;
-    
-  } else if (screenHeight < 1100) {
-    
-    this.rowsPerPage = 7;
-    
-  } else if (screenHeight < 1300) {
-  
-    this.rowsPerPage = 9;
-    
-  } else if (screenHeight < 1500) {
-    
-    this.rowsPerPage = 11;
-    
-  } else {
-    
-    this.rowsPerPage = 13;
+    if (screenHeight < 600) {
+      this.rowsPerPage = 3;
+    } else if (screenHeight < 700) {
+      this.rowsPerPage = 4;
+    } else if (screenHeight < 850) {
+      this.rowsPerPage = 4;
+    } else if (screenHeight < 950) {
+      this.rowsPerPage = 6;
+    } else if (screenHeight < 1100) {
+      this.rowsPerPage = 7;
+    } else if (screenHeight < 1300) {
+      this.rowsPerPage = 9;
+    } else if (screenHeight < 1500) {
+      this.rowsPerPage = 11;
+    } else {
+      this.rowsPerPage = 13;
+    }
+
+    this.onPageChange();
   }
 
-  this.onPageChange();
-}
-
-   
-// Função para configurar troca de tema
+  // Função para configurar troca de tema
   switchTeme() {
     this.ligthMode = !this.ligthMode;
 
-    if (this.ligthMode === true) {document.body.classList.remove('dark'); }   
-    else{ document.body.classList.add('dark'); }
+    if (this.ligthMode === true) {
+      document.body.classList.remove('dark');
+    } else {
+      document.body.classList.add('dark');
+    }
   }
-// Função Drag and drop
+  // Função Drag and drop
   drop(event: CdkDragDrop<TaskInterface[]>) {
     moveItemInArray(this.taskView, event.previousIndex, event.currentIndex);
   }
-// Funcoes crud de task abertura
+  // Funcoes crud de task abertura
   AddTask() {
-    this._taskService.AddTask(this.NewTask);
-    this.NewTask = '';
-    this.onPageChange();
+    this._taskService.AddTask(this.NewTask)?.subscribe({
+      next: () => {
+        this.NewTask = '';
+        this.loadTasks();
+        this.onPageChange();
+      },
+    });
   }
 
   EditTask(task: TaskInterface) {
     this.editMode = !this.editMode;
-    let edit = this.taskEdit
+    let edit = this.taskEdit;
 
-    if(this.editMode == true)
-    {
-    this.taskEdit = task.description;
-    this.taskToEdit = task.id;
+    if (this.editMode == true) {
+      this.taskEdit = task.description;
+      this.taskToEdit = task.id;
+    } else if (task.id == this.taskToEdit) {
+      this._taskService.EditTask(task, edit);
+      edit = '';
     }
-
-    else if (task.id == this.taskToEdit)
-    {
-    this._taskService.EditTask(task, edit);
-     edit = '';
-    }
-    
   }
+
+  CompleteTask(task: TaskInterface) {}
 
   RemoveTask(task: TaskInterface) {
-    this._taskService.RemoveTask(task);
-    this.taskView = this.taskView.filter((x) => x.id != task.id);
-    this.onPageChange();
+    this._taskService.RemoveTask(task).subscribe({
+      next: (res) => {
+        this.taskView = this.taskView.filter((x) => x.id != task.id);
+        this.loadTasks();
+        this.onPageChange();
+      },
+    });
   }
 
-  Filter(activeFilter: 'Total' | 'Actives' | 'Completed'): TaskInterface[] {
+  Filter(activeFilter: 'Total' | 'Actives' | 'Completed', task?: TaskInterface): TaskInterface[] {
     this.activeFilter = activeFilter;
-    this.taskView = this._taskService.Filter(activeFilter);
-   
-   this.paginator.changePage(0);
+    this.taskView = this._taskService.Filter(activeFilter, task);
+    this.paginator.changePage(0);
     this.onPageChange();
     return this.taskView;
   }
 
-  TotalTasks() {
-    return this._taskService.TotalTasks().length;
+  loadTasks() {
+    this._taskService.GetTaskList().subscribe((res) => {
+      this.taskView = res;
+      this.totalTasks = res.length;
+      this.activeTasks = res.filter((t) => !t.completed).length;
+      this.completedTasks = res.filter((t) => t.completed).length;
+
+      this.onPageChange();
+    });
   }
-
-  ActiveTasks() {
-    return this._taskService.ActiveTasks().length;
-  }
-
-  CompletedTasks() {
-    return this._taskService.CompletedTasks().length;
-  }
-
-
 
   MessageServiceCompleteTaskOrReativeTask(task: TaskInterface) {
     if (task.completed === false) {
@@ -192,17 +185,17 @@ export class Main {
     if (event?.page != undefined) {
       this.page = event.page;
     }
+
     const totalTasks = this._taskService.Filter(this.activeFilter);
     const Inicio = this.page * this.rowsPerPage;
     const fim = Inicio + this.rowsPerPage;
-    this.taskList = totalTasks;
+
     this.taskView = totalTasks.slice(Inicio, fim);
-    this.taskView = [...this.taskView]
-    this.cdr.detectChanges()
+
+    this.cdr.detectChanges();
   }
 
-  Loggout()
-  {
-    this._authservice.loggout()
+  Loggout() {
+    this._authservice.loggout();
   }
 }

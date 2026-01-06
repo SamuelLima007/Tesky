@@ -27,7 +27,7 @@ namespace To_Do_List_Backend.Controllers
 
 
     [Authorize]
-    [HttpGet("tasks")]
+    [HttpGet("gettask")]
     public  IActionResult GetTasks()
     {
       var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -45,14 +45,10 @@ namespace To_Do_List_Backend.Controllers
         {
           var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
           var userid = int.Parse(id);
-          if(task == null)
-      {
-        Console.WriteLine("task null");
-      }
-
+          
           var newtask = new TaskModel
           {
-           
+           Id = task.Id,
             Description = task.Description,
             Completed = task.Completed,
             UserId = userid,
@@ -63,33 +59,33 @@ namespace To_Do_List_Backend.Controllers
 
             await _context.SaveChangesAsync();
 
-            var newlist = GetTasks();
-
+        
            
-            return Ok(newlist);
+            return Ok(task);
         }
 
 
-      [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTask(int id)
+      [HttpDelete("removetask/{id}")]
+        public async Task<IActionResult> DeleteTask(long id)
         {
             var TaskToDelete = await _context.Tasks.FindAsync(id);
-            if (TaskToDelete == null)
-            {
-                return NotFound();
-            }
+          
             _context.Tasks.Remove(TaskToDelete);
             await _context.SaveChangesAsync();
             return Ok();
         }
 
-
-        public async Task<IActionResult> UpdateTask (int id, string description, bool completed)
+        [HttpPut("editTask")]
+        public async Task<IActionResult> UpdateTask ([FromBody]TaskModel editTask)
        {
+        
 
-        var task = _context.Tasks.Find(id);
-        task.Description = description;
-        task.Completed = completed;
+
+        var task = await _context.Tasks.FindAsync(editTask.Id);
+        task.Description = editTask.Description;
+        task.Completed = editTask.Completed;
+         _context.Tasks.Update(task);
+         await _context.SaveChangesAsync();
         return Ok();
       
        } 

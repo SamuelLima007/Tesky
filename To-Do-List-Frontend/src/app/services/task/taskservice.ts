@@ -1,94 +1,83 @@
 import { Injectable } from '@angular/core';
 import { Showmessage } from '../Showmessage/showmessage';
 import { TaskInterface } from '../../interfaces/taskinterface';
-import { PaginatorState } from 'primeng/paginator';
+import { ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Taskservice {
-
-  private ApiUrl : string = 'http://localhost:5195'
+  private ApiUrl: string = 'http://localhost:5195';
 
   taskList: TaskInterface[] = [];
-  
-  
 
-  constructor(private ShowMessageService: Showmessage, private http : HttpClient) {}
+  constructor(private ShowMessageService: Showmessage, private http: HttpClient) {}
 
   AddTask(newTask: string) {
     if (newTask != '') {
-      const date = new Date();
-      let task : TaskInterface = {
-        id: 0,
+      let task: TaskInterface = {
+        id: Date.now(),
         description: newTask,
-        completed: true,
+        completed: false,
       };
 
-      
-
-      this.http.post<TaskInterface[]>(`${this.ApiUrl}/createtasks`, task).subscribe(
-        {
-          next: (res) => {
-               
-              this.taskList = res
-              console.log(this.taskList)
-             
-          },
-          error: (err) =>
-          {
-            console.log(err);
-          }
-        }
-      )
-      this.ShowMessageService.showMessageAddTask();
+      return this.http.post<TaskInterface>(`${this.ApiUrl}/createtasks`, task).pipe(
+        tap((res) => {
+          this.taskList.push(res);
+          this.ShowMessageService.showMessageAddTask();
+        })
+      );
     } else {
       this.ShowMessageService.showMessageTaskNull();
+      return null;
     }
   }
-  
+
   GetTaskList() {
-  this.http.get<TaskInterface[]>(`${this.ApiUrl}getTask`).subscribe(
-    {
-      next: (res) => 
-      {
-       this.taskList = res
-      },
-      error : (err) =>
-      {
-      
-      }
-    },
-  )
-    
+    return this.http
+      .get<TaskInterface[]>(`${this.ApiUrl}/getTask`)
+      .pipe(tap((res) => (this.taskList = res)));
   }
 
   EditTask(task: TaskInterface, taskEdit: string) {
     if (taskEdit != '') {
       task.description = taskEdit;
-      this.ShowMessageService.showMessagEditTask();
+      this.http.put(`${this.ApiUrl}/editTask`, task).subscribe({
+        next: (res) => {
+          this.ShowMessageService.showMessagEditTask();
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
     }
   }
 
   RemoveTask(task: TaskInterface) {
-    this.taskList = this.taskList.filter((x) => x.id != task.id);
-    this.ShowMessageService.showMessagRemovedTask();
+    return this.http.delete(`${this.ApiUrl}/removetask/${task.id}`).pipe(
+      tap((res) => {
+        this.taskList = this.taskList.filter((x) => x.id != task.id);
+        this.ShowMessageService.showMessagRemovedTask();
+      })
+    );
   }
 
-  TotalTasks() {
-    return this.taskList;
+  CompleteTask(task: TaskInterface) {
+    this.http.put(`${this.ApiUrl}/editTask`, task).subscribe({
+      next: (res) => {},
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
-  ActiveTasks() {
-    return this.taskList.filter((x) => x.completed == false);
-  }
+  Filter(activeFilter: 'Total' | 'Actives' | 'Completed', task?: TaskInterface) {
+    if (task != null) {
+      this.CompleteTask(task);
+    }
 
-  CompletedTasks() {
-    return this.taskList.filter((x) => x.completed == true);
-  }
-
-  Filter(activeFilter: 'Total' | 'Actives' | 'Completed') {
     switch (activeFilter) {
       case 'Total':
         return this.taskList;

@@ -10,8 +10,8 @@ using To_Do_List_Backend.Data;
 namespace To_Do_List_Backend.Migrations
 {
     [DbContext(typeof(TaskDataContext))]
-    [Migration("20260102123559_V2")]
-    partial class V2
+    [Migration("20260105202444_V1")]
+    partial class V1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

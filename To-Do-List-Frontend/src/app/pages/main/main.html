@@ -1,7 +1,6 @@
 <div class="container mx-auto w-full min-h-screen flex justify-center">
   <div class="content-container w-full flex mt-3">
     <div class="items flex flex-col gap-1 w-full">
-
       <!-- Cabeçalho -->
       <div class="text-content text-center grid grid-cols-4">
         <div class="text-top col-start-2 col-end-4 flex flex-col gap-1">
@@ -24,17 +23,25 @@
       </div>
 
       <!-- Status das listas -->
-      <div class="status-container flex justify-between gap-7 min-w-11/12 lg:min-w-7/12 m-2 mx-auto">
-        <div class="w-full bg-white text-gray-600 border-gray-300 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-sm dark:text-gray-100/30 py-2 px-2 text-center">
-          <span class="dark:text-white text-3xl">{{ TotalTasks() }}</span>
+      <div
+        class="status-container flex justify-between gap-7 min-w-11/12 lg:min-w-7/12 m-2 mx-auto"
+      >
+        <div
+          class="w-full bg-white text-gray-600 border-gray-300 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-sm dark:text-gray-100/30 py-2 px-2 text-center"
+        >
+          <span class="dark:text-white text-3xl">{{ totalTasks }}</span>
           <p class="text-sm">Total</p>
         </div>
-        <div class="w-full bg-white text-gray-900 border-gray-300 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-sm dark:text-gray-100/30 py-2 px-2 text-center">
-          <span class="text-3xl text-indigo-400">{{ ActiveTasks() }}</span>
+        <div
+          class="w-full bg-white text-gray-900 border-gray-300 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-sm dark:text-gray-100/30 py-2 px-2 text-center"
+        >
+          <span class="text-3xl text-indigo-400">{{ activeTasks }}</span>
           <p class="text-sm">Ativas</p>
         </div>
-        <div class="w-full bg-white text-gray-900 border-gray-300/10 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-sm dark:text-gray-100/30 py-2 px-2 text-center">
-          <span class="text-3xl text-green-400">{{ CompletedTasks() }}</span>
+        <div
+          class="w-full bg-white text-gray-900 border-gray-300/10 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-sm dark:text-gray-100/30 py-2 px-2 text-center"
+        >
+          <span class="text-3xl text-green-400">{{ totalTasks }}</span>
           <p class="text-sm">Concluídas</p>
         </div>
       </div>
@@ -59,7 +66,9 @@
       </div>
 
       <!-- Botões p filtro de lista -->
-      <div class="selectbuttons-container flex gap-2 min-w-11/12 lg:min-w-7/12 m-2 mx-auto dark:text-gray-600">
+      <div
+        class="selectbuttons-container flex gap-2 min-w-11/12 lg:min-w-7/12 m-2 mx-auto dark:text-gray-600"
+      >
         <button
           [ngClass]="{ active: activeFilter == 'Total' }"
           class="my-button ring-1 ring-gray-500/20 text-gray-600"
@@ -85,17 +94,25 @@
 
       <!-- Lista de tasks -->
       <div class="list-container w-full h-full flex justify-center">
-        <div class="list-content max-w-11/12 dark:text-white min-w-11/12 lg:min-w-7/12 lg:max-w-96 mx-auto">
-          
-          <ul cdkDropList (cdkDropListDropped)="drop($event)" class="list flex flex-col gap-4 xl:gap-6 transform">
+        <div
+          class="list-content max-w-11/12 dark:text-white min-w-11/12 lg:min-w-7/12 lg:max-w-96 mx-auto"
+        >
+          <ul
+            cdkDropList
+            (cdkDropListDropped)="drop($event)"
+            class="list flex flex-col gap-4 xl:gap-6 transform"
+          >
             <ng-container *ngFor="let task of taskView">
               <div
                 cdkDrag
                 class="task-container transform bg-gray-300/80 hover:bg-gray-50 dark:bg-stone-900/40 ring-2 ring-gray-500/80 dark:ring-gray-400/30 rounded-xl text-2xl gap-5 p-5 flex flex-row transition hover:scale-105 dark:hover:bg-black"
               >
-                <div class="checkbox flex items-center mt-0.5" (click)="MessageServiceCompleteTaskOrReativeTask(task)">
+                <div
+                  class="checkbox flex items-center mt-0.5"
+                  (click)="MessageServiceCompleteTaskOrReativeTask(task)"
+                >
                   <p-checkbox
-                    (onChange)="Filter(activeFilter)"
+                    (onChange)="Filter(activeFilter, task)"
                     inputId="size_small"
                     name="size"
                     value="small"
@@ -126,7 +143,7 @@
                   class="flex-1 mt-0.5 w-40 text-sm bg-zinc-800/40 text-blue-100 rounded-md placeholder:text-zinc-500 py-2 px-3"
                 />
 
-                <div class="flex flex-row gap-4 items-center ">
+                <div class="flex flex-row gap-4 items-center">
                   <lucide-icon
                     (click)="EditTask(task)"
                     [img]="Pencilicon"
@@ -152,10 +169,9 @@
           (onPageChange)="onPageChange($event)"
           [first]="0"
           [rows]="rowsPerPage"
-          [totalRecords]="taskList.length"
+          [totalRecords]="taskView.length"
         ></p-paginator>
       </div>
-
     </div>
   </div>
 </div>

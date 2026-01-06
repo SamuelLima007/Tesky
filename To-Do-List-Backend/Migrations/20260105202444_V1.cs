@@ -16,6 +16,7 @@ namespace To_Do_List_Backend.Migrations
                 {
                     id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    name = table.Column<string>(type: "TEXT", nullable: true),
                     email = table.Column<string>(type: "TEXT", nullable: false),
                     password = table.Column<string>(type: "TEXT", nullable: false)
                 },

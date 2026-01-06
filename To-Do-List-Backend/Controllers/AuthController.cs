@@ -25,12 +25,12 @@ namespace To_Do_List_Backend.Controllers
         private readonly TokenService _tokenservice;
 
         public AuthController(TaskDataContext context, TokenService tokenservice)
-    {
-        _context = context;
-        _tokenservice = tokenservice;
-    }
-         [AllowAnonymous]
-         [HttpPost("login")]
+        {
+            _context = context;
+            _tokenservice = tokenservice;
+        }
+        [AllowAnonymous]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequestDto login)
         {
 
@@ -46,8 +46,8 @@ namespace To_Do_List_Backend.Controllers
                 }
                 else
                 {
-                   var token = _tokenservice.GenerateToken(user);
-                   return Ok(new { token});
+                    var token = _tokenservice.GenerateToken(user);
+                    return Ok(new { token });
                 }
             }
             else
@@ -56,34 +56,29 @@ namespace To_Do_List_Backend.Controllers
             }
 
         }
-
-           [HttpPost("register")]
-           public async Task<IActionResult> Register([FromBody] UserModel user)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] UserModel user)
         {
-           var RegisterRequest = await _context.Users.FirstOrDefaultAsync((x) => x.email == user.email);
-           if (RegisterRequest != null)
+            var RegisterRequest = await _context.Users.FirstOrDefaultAsync((x) => x.email == user.email);
+            if (RegisterRequest != null)
             {
                 return Conflict("Email já cadastrado!");
             }
             else
             {
-           var passwordhasher = new PasswordHasher<UserModel>();
-           user.password =  passwordhasher.HashPassword(user, user.password);
-           await _context.Users.AddAsync(user);
-           await _context.SaveChangesAsync();
-           return Ok();
+                var passwordhasher = new PasswordHasher<UserModel>();
+                user.password = passwordhasher.HashPassword(user, user.password);
+                await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync();
+                return Ok();
             }
-            
+
         }
-
-
-           [Authorize]
-           [HttpGet("Login")]
+        [Authorize]
+        [HttpGet("Login")]
         public async Task<IActionResult> IsLogged()
         {
             return Ok();
         }
-
-
     }
 }

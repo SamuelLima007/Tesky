@@ -9,8 +9,7 @@ import { Route, Router, RouterLink, RouterModule } from '@angular/router';
 export class Authservice {
   private ApiUrl = 'http://localhost:5195/login';
 
-
-  constructor(private http: HttpClient, private router : Router) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   Login(email: string, password: string) {
     return this.http.post<{ token: string }>(this.ApiUrl, {
@@ -29,13 +28,10 @@ export class Authservice {
 
   loggout() {
     localStorage.removeItem('token');
-     return  this.router.navigate(['/login'])
-    
+    return this.router.navigate(['/login']);
   }
 
   Islogged() {
     return !!this.GetToken();
   }
-
- 
 }

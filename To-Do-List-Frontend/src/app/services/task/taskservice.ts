@@ -64,19 +64,12 @@ export class Taskservice {
     );
   }
 
-  CompleteTask(task: TaskInterface) {
-    this.http.put(`${this.ApiUrl}/editTask`, task).subscribe({
-      next: (res) => {},
-      error: (err) => {
-        console.log(err);
-      },
-    });
-  }
+CompleteTask(task: TaskInterface) {
+  return this.http.put(`${this.ApiUrl}/editTask`, task);
+}
 
   Filter(activeFilter: 'Total' | 'Actives' | 'Completed', task?: TaskInterface) {
-    if (task != null) {
-      this.CompleteTask(task);
-    }
+  
 
     switch (activeFilter) {
       case 'Total':

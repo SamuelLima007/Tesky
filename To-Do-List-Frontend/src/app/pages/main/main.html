@@ -41,7 +41,7 @@
         <div
           class="w-full bg-white text-gray-900 border-gray-300/10 dark:bg-stone-900/40 ring-1 ring-gray-500/20 dark:ring-gray-400/30 rounded-sm dark:text-gray-100/30 py-2 px-2 text-center"
         >
-          <span class="text-3xl text-green-400">{{ totalTasks }}</span>
+          <span class="text-3xl text-green-400">{{ completedTasks }}</span>
           <p class="text-sm">Concluídas</p>
         </div>
       </div>
@@ -109,10 +109,10 @@
               >
                 <div
                   class="checkbox flex items-center mt-0.5"
-                  (click)="MessageServiceCompleteTaskOrReativeTask(task)"
+                 
                 >
                   <p-checkbox
-                    (onChange)="Filter(activeFilter, task)"
+                    (onChange)="onCompleteTask(task)"
                     inputId="size_small"
                     name="size"
                     value="small"
@@ -120,6 +120,7 @@
                     [binary]="true"
                   />
                 </div>
+                
 
                 <li
                   [ngClass]="{
@@ -127,7 +128,7 @@
                     visible: !editMode || task.id != taskToEdit,
                     'line-through not-dark:text-gray-400 dark:text-gray-600/60': task.completed
                   }"
-                  class="tasks flex-1 items-center"
+                  class="tasks flex-1 items-center text-ellipsis text-nowrap overflow-hidden "
                 >
                   {{ task.description }}
                 </li>
@@ -169,7 +170,7 @@
           (onPageChange)="onPageChange($event)"
           [first]="0"
           [rows]="rowsPerPage"
-          [totalRecords]="taskView.length"
+          [totalRecords]="totalrecords"
         ></p-paginator>
       </div>
     </div>

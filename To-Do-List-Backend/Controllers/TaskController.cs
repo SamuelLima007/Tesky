@@ -7,87 +7,113 @@ using System.Threading.Tasks;
 using IdGen;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using To_Do_List_Backend.Data;
 using To_Do_List_Backend.Models;
 
 namespace To_Do_List_Backend.Controllers
 {
-    
-    public class TaskController : ControllerBase
+
+  public class TaskController : ControllerBase
+  {
+    private readonly TaskDataContext _context;
+
+    public TaskController(TaskDataContext context)
     {
-       private readonly TaskDataContext _context;
-   
+      _context = context;
 
-       public TaskController(TaskDataContext context)
-       {
-        _context = context;
-        
-       }
-
+    }
 
     [Authorize]
     [HttpGet("gettask")]
-    public  IActionResult GetTasks()
+    public async Task<IActionResult> GetTasks()
     {
       var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
       var userid = int.Parse(id);
-      
- 
-      var tasklist = _context.Tasks.Where((x) => x.UserId == userid);
+      var tasklist = await _context.Tasks.Where((x) => x.UserId == userid).ToListAsync();
       return Ok(tasklist);
-    
+
     }
 
-      [Authorize]
-      [HttpPost("createtasks")]
-        public async Task<IActionResult> CreateTask([FromBody] TaskModel task)
-        {
-          var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-          var userid = int.Parse(id);
-          
-          var newtask = new TaskModel
-          {
-           Id = task.Id,
-            Description = task.Description,
-            Completed = task.Completed,
-            UserId = userid,
-          };
-       
-           
-            await _context.Tasks.AddAsync(newtask);
-
-            await _context.SaveChangesAsync();
-
-        
-           
-            return Ok(task);
-        }
+    [Authorize]
+    [HttpPost("createtasks")]
+    public async Task<IActionResult> CreateTask([FromBody] TaskModel task)
+    {
+      var id = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var userid = int.Parse(id);
+      var newtask = new TaskModel
+      {
+        Id = task.Id,
+        Description = task.Description,
+        Completed = task.Completed,
+        UserId = userid,
+      };
+      await _context.Tasks.AddAsync(newtask);
+      await _context.SaveChangesAsync();
+      return Ok(newtask);
+    }
 
 
-      [HttpDelete("removetask/{id}")]
-        public async Task<IActionResult> DeleteTask(long id)
-        {
-            var TaskToDelete = await _context.Tasks.FindAsync(id);
-          
-            _context.Tasks.Remove(TaskToDelete);
-            await _context.SaveChangesAsync();
-            return Ok();
-        }
+    [HttpDelete("removetask/{id}")]
+    public async Task<IActionResult> DeleteTask(long id)
+    {
 
-        [HttpPut("editTask")]
-        public async Task<IActionResult> UpdateTask ([FromBody]TaskModel editTask)
-       {
-        
+      var iduser = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var userid = int.Parse(iduser);
 
+      var TaskToDelete = await _context.Tasks.FindAsync(id);
+      if (TaskToDelete != null && TaskToDelete.UserId == userid)
+      {
+        _context.Tasks.Remove(TaskToDelete);
+        await _context.SaveChangesAsync();
+        return Ok();
+      }
 
-        var task = await _context.Tasks.FindAsync(editTask.Id);
+      else if (TaskToDelete == null)
+
+      {
+        return NotFound();
+      }
+
+      else if (TaskToDelete.UserId != userid)
+
+      {
+        return Forbid();
+      }
+      return NoContent();
+
+    }
+
+    [HttpPut("editTask")]
+    public async Task<IActionResult> UpdateTask([FromBody] TaskModel editTask)
+    {
+
+      var iduser = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+      var userid = int.Parse(iduser);
+
+      var task = await _context.Tasks.FindAsync(editTask.Id);
+
+      if (task != null && task.UserId == userid)
+      {
         task.Description = editTask.Description;
         task.Completed = editTask.Completed;
-         _context.Tasks.Update(task);
-         await _context.SaveChangesAsync();
+        _context.Tasks.Update(task);
+        await _context.SaveChangesAsync();
         return Ok();
-      
-       } 
+      }
+      else if (task == null)
+      {
+        return NotFound();
+      }
+
+      else if (task.UserId != userid)
+      {
+        return Forbid();
+      }
+      return NoContent();
+
+
     }
+  }
 }

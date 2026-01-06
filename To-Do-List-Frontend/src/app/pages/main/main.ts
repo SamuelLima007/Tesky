@@ -1,20 +1,16 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TaskInterface } from '../../interfaces/taskinterface';
 import { CheckboxModule } from 'primeng/checkbox';
-import { PencilIcon, Trash2, LucideAngularModule } from 'lucide-angular';
+import { PencilIcon, Trash2, LucideAngularModule, SunMoonIcon, LogOutIcon } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { PaginatorModule, Paginator, PaginatorState } from 'primeng/paginator';
 import { ToastModule } from 'primeng/toast';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Taskservice } from '../../services/task/taskservice';
 import { MessageService } from 'primeng/api';
-import { SunMoonIcon } from 'lucide-angular';
-import { LogOutIcon } from 'lucide-angular';
 import { Authservice } from '../../services/Auth/authservice';
-import { ChangeDetectorRef } from '@angular/core';
-import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-main',
@@ -40,6 +36,7 @@ export class Main {
   readonly SunMoonIcon = SunMoonIcon;
   readonly LogOutIcon = LogOutIcon;
 
+  totalrecords: number = 4;
   taskView: TaskInterface[] = [];
   NewTask: string = '';
   taskEdit: string = '';
@@ -47,9 +44,8 @@ export class Main {
   editMode: boolean = false;
   taskToEdit: number = -1;
   page: number = 0;
-  rowsPerPage: number = 7;
+  rowsPerPage: number = 4;
   ligthMode: boolean = false;
-  firstPage: number = 4;
   totalTasks: number = 0;
   activeTasks: number = 0;
   completedTasks: number = 0;
@@ -62,7 +58,9 @@ export class Main {
   ) {}
 
   ngOnInit(): void {
-    this.loadTasks();
+
+    this.updateRowsPerPage();
+   
   }
 
   //Itens por pagina de acordo com tamanho da tela
@@ -87,8 +85,8 @@ export class Main {
     } else {
       this.rowsPerPage = 13;
     }
-
-    this.onPageChange();
+ this.loadTasks();
+    
   }
 
   // Função para configurar troca de tema
@@ -106,6 +104,7 @@ export class Main {
     moveItemInArray(this.taskView, event.previousIndex, event.currentIndex);
   }
   // Funcoes crud de task abertura
+  
   AddTask() {
     this._taskService.AddTask(this.NewTask)?.subscribe({
       next: () => {
@@ -129,8 +128,6 @@ export class Main {
     }
   }
 
-  CompleteTask(task: TaskInterface) {}
-
   RemoveTask(task: TaskInterface) {
     this._taskService.RemoveTask(task).subscribe({
       next: (res) => {
@@ -141,27 +138,40 @@ export class Main {
     });
   }
 
+  onCompleteTask(task: TaskInterface) {
+  this._taskService.CompleteTask(task).subscribe(() => {
+    this.loadTasks(); 
+    this.MessageServiceCompleteTaskOrReativeTask(task);
+  });
+}
+  
+
   Filter(activeFilter: 'Total' | 'Actives' | 'Completed', task?: TaskInterface): TaskInterface[] {
     this.activeFilter = activeFilter;
     this.taskView = this._taskService.Filter(activeFilter, task);
+   
     this.paginator.changePage(0);
     this.onPageChange();
     return this.taskView;
   }
 
-  loadTasks() {
-    this._taskService.GetTaskList().subscribe((res) => {
-      this.taskView = res;
-      this.totalTasks = res.length;
-      this.activeTasks = res.filter((t) => !t.completed).length;
-      this.completedTasks = res.filter((t) => t.completed).length;
+  recalculateCounters() {
+  const tasks = this._taskService.taskList;
 
-      this.onPageChange();
-    });
-  }
+  this.totalTasks = tasks.length;
+  this.activeTasks = tasks.filter(x => !x.completed).length;
+  this.completedTasks = tasks.filter(x => x.completed).length;
+}
+
+  loadTasks() {
+  this._taskService.GetTaskList().subscribe((res) => {
+    this.recalculateCounters();
+    this.onPageChange();
+  });
+}
 
   MessageServiceCompleteTaskOrReativeTask(task: TaskInterface) {
-    if (task.completed === false) {
+    if (task.completed === true) {
       this._Messageservice.clear();
       this._Messageservice.add({
         key: 'tr',
@@ -189,9 +199,9 @@ export class Main {
     const totalTasks = this._taskService.Filter(this.activeFilter);
     const Inicio = this.page * this.rowsPerPage;
     const fim = Inicio + this.rowsPerPage;
-
+    this.totalrecords = totalTasks.length
     this.taskView = totalTasks.slice(Inicio, fim);
-
+    
     this.cdr.detectChanges();
   }
 

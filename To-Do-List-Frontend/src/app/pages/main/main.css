@@ -20,6 +20,8 @@
 
 .cdk-drag-preview {
   border: none;
+
+  align-items: center;
   box-sizing: border-box;
   padding: 20px;
   padding-bottom: 4px;

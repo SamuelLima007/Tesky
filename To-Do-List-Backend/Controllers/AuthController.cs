@@ -57,15 +57,22 @@ namespace To_Do_List_Backend.Controllers
 
         }
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserModel user)
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDto userRequest)
         {
-            var RegisterRequest = await _context.Users.FirstOrDefaultAsync((x) => x.email == user.email);
+            var RegisterRequest = await _context.Users.FirstOrDefaultAsync((x) => x.email == userRequest.email);
             if (RegisterRequest != null)
             {
                 return Conflict("Email já cadastrado!");
             }
             else
             {
+               var user = new UserModel();
+                {
+                    user.email = userRequest.email;
+                    user.password = userRequest.password;
+                    user.name = userRequest.name;
+                }
+
                 var passwordhasher = new PasswordHasher<UserModel>();
                 user.password = passwordhasher.HashPassword(user, user.password);
                 await _context.Users.AddAsync(user);

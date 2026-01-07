@@ -54,7 +54,7 @@ namespace To_Do_List_Backend.Controllers
       return Ok(newtask);
     }
 
-
+    [Authorize]
     [HttpDelete("removetask/{id}")]
     public async Task<IActionResult> DeleteTask(long id)
     {
@@ -85,6 +85,7 @@ namespace To_Do_List_Backend.Controllers
 
     }
 
+    [Authorize]
     [HttpPut("editTask")]
     public async Task<IActionResult> UpdateTask([FromBody] TaskModel editTask)
     {

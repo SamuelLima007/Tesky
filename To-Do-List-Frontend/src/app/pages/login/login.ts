@@ -7,10 +7,13 @@ import { Authservice } from '../../services/Auth/authservice';
 import { CommonModule } from '@angular/common';
 import { MessageModule } from 'primeng/message';
 import { ChangeDetectorRef } from '@angular/core';
+import { Showmessage } from '../../services/Showmessage/showmessage';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
-  imports: [Icon, FormsModule, RouterLink, RouterModule, CommonModule, MessageModule],
+  imports: [Icon, FormsModule, RouterLink, RouterModule, CommonModule, MessageModule, ToastModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -18,7 +21,9 @@ export class Login {
   User: Userinterface = { email: '', password: '' };
   LoginMensagemErro = false
 
-  constructor(private _authservice: Authservice, private router: Router, private cdr : ChangeDetectorRef) {}
+  constructor(private _authservice: Authservice, private router: Router, private cdr : ChangeDetectorRef, private _messageservice : Showmessage) {}
+
+  
 
   login(form : NgForm) {
      
@@ -27,7 +32,9 @@ export class Login {
        this._authservice.Login(this.User.email, this.User.password).subscribe({
       next: (res) => {
         this._authservice.Savetoken(res.token);
+       
         this.router.navigate(['/main']);
+        
         this.LoginMensagemErro = false;
         this.cdr.detectChanges();
       },

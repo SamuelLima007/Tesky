@@ -9,6 +9,7 @@ import { Message, MessageModule } from 'primeng/message';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Authservice } from '../../services/Auth/authservice';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +23,7 @@ export class Register {
   errorMessage : string = ''
   emailTested : string = ''
 
-  constructor(private http : HttpClient, private cdr : ChangeDetectorRef, private router : Router, private _authservice : Authservice){}
+  constructor(private http : HttpClient, private cdr : ChangeDetectorRef, private router : Router, private _authservice : Authservice, _messageservice : MessageService){}
 
   User : Userinterface = {name: '', email: '', password: ''}
 

@@ -16,7 +16,7 @@
           ></lucide-icon>
           <lucide-icon
             (click)="switchTeme()"
-            [img]="SunMoonIcon"
+            [img]="ligthMode? MoonStar : Sun"
             class="inline-flex dark:text-white cursor-pointer transition hover:scale-95"
           ></lucide-icon>
         </div>
@@ -147,13 +147,14 @@
                 <div class="flex flex-row gap-4 items-center">
                   <lucide-icon
                     (click)="EditTask(task)"
-                    [img]="Pencilicon"
-                    class="text-blue-400 cursor-pointer transition hover:scale-95"
+                    [img]="editMode ? Check : Pencilicon"
+                    class="cursor-pointer transition hover:scale-95"
+                    [ngClass]="{'text-green-400': editMode, 'text-blue-400 ' : !editMode}"
                   ></lucide-icon>
 
                   <lucide-icon
-                    (click)="RemoveTask(task)"
-                    [img]="Trash2"
+                    (click)="editMode? EditTask() : RemoveTask(task) "
+                    [img]="editMode ? X : Trash2"
                     class="text-red-500/70 cursor-pointer transition hover:scale-95"
                   ></lucide-icon>
                 </div>

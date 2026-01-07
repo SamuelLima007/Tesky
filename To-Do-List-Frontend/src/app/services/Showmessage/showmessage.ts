@@ -60,6 +60,28 @@ this._Messageservice.add({
   detail:'Task Editada com sucesso!'});
   }
 
+   showMessagLogged()
+  {
+    this._Messageservice.clear();
+    this._Messageservice.add({
+  key:'tr',
+  severity:'success', 
+  summary:'Task Advice', 
+  detail:'Usuario Logado com sucesso!'});
+  }
+
+   showMessagRegister()
+  {
+
+    this._Messageservice.add({
+  key:'tr',
+  severity:'success', 
+  summary:'Task Advice', 
+  detail:'Usuario Registrado com sucesso',
+life: 312312000})
+  }
+
+
  
   
 }

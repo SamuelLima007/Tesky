@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TaskInterface } from '../../interfaces/taskinterface';
 import { CheckboxModule } from 'primeng/checkbox';
-import { PencilIcon, Trash2, LucideAngularModule, SunMoonIcon, LogOutIcon } from 'lucide-angular';
+import { PencilIcon, Trash2, LucideAngularModule, MoonStar, Sun, X, Check , LogOutIcon } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { PaginatorModule, Paginator, PaginatorState } from 'primeng/paginator';
 import { ToastModule } from 'primeng/toast';
@@ -33,8 +33,11 @@ export class Main {
   readonly Trash2 = Trash2;
   readonly Pencilicon = PencilIcon;
   readonly Paginator = Paginator;
-  readonly SunMoonIcon = SunMoonIcon;
+  readonly Sun = Sun;
   readonly LogOutIcon = LogOutIcon;
+  readonly MoonStar = MoonStar;
+  readonly X = X;
+  readonly Check = Check;
 
   totalrecords: number = 4;
   taskView: TaskInterface[] = [];
@@ -115,16 +118,20 @@ export class Main {
     });
   }
 
-  EditTask(task: TaskInterface) {
+  EditTask(task?: TaskInterface) {
     this.editMode = !this.editMode;
     let edit = this.taskEdit;
 
-    if (this.editMode == true) {
+    if(task != null)
+    {
+
+       if (this.editMode == true) {
       this.taskEdit = task.description;
       this.taskToEdit = task.id;
     } else if (task.id == this.taskToEdit) {
       this._taskService.EditTask(task, edit);
       edit = '';
+    }
     }
   }
 

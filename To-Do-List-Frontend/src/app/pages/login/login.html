@@ -5,15 +5,20 @@
       <div><h1 class="text-3xl xl:text-3xl text-blue-100">Login</h1></div>
       <div><h2 class="text-md text-blue-100/50">Faça login para acessar sua conta</h2></div>
     </div>
-    
 
-    <form class="flex w-full justify-center font-semibold" #form="ngForm" (ngSubmit)="login(form)">
+    <form
+      autocomplete="false"
+      class="flex w-full justify-center font-semibold"
+      #form="ngForm"
+      (ngSubmit)="login(form)"
+    >
       <div
         class="form-container flex flex-col min-w-9/12 sm:min-w-8/12 lg:min-w-6/12 xl:min-w-5/12 2xl:min-w-4/12 gap-5 bg-stone-900/40 ring-1 ring-gray-400/30 p-8"
       >
         <div class="form-group flex flex-col text-start gap-0.5">
           <label for="email" class="text-blue-100/90">Email</label>
           <input
+            autocomplete="off"
             id="email"
             [(ngModel)]="User.email"
             #email="ngModel"

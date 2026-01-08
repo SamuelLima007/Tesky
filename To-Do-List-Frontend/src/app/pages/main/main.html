@@ -16,7 +16,7 @@
           ></lucide-icon>
           <lucide-icon
             (click)="switchTeme()"
-            [img]="ligthMode? MoonStar : Sun"
+            [img]="ligthMode ? MoonStar : Sun"
             class="inline-flex dark:text-white cursor-pointer transition hover:scale-95"
           ></lucide-icon>
         </div>
@@ -54,7 +54,7 @@
           placeholder="Digite sua tarefa..."
           class="w-full ring-1 ring-gray-500/20 bg-white text-gray-900 dark:bg-zinc-800/40 dark:border-zinc-700 dark:text-blue-100 rounded-sm placeholder:text-gray-600 dark:placeholder:text-zinc-500 py-2 px-3"
         />
-        <p-toast position="top-right" key="tr"></p-toast>
+
         <button
           label="Info"
           severity="info"
@@ -92,25 +92,43 @@
         </button>
       </div>
 
+      <ng-container *ngIf="taskView.length < 1">
+        <div class="flex items-center justify-center min-h-[calc(100vh-420px)] px-4 sm:px-6">
+          <div
+            class="w-full max-w-md sm:max-w-lg rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-md dark:shadow-none px-6 sm:px-10 py-8 sm:py-12 text-center transition-all duration-300"
+          >
+            <p
+              class="font-bold tracking-tight text-xl sm:text-2xl text-gray-800 dark:text-zinc-100"
+            >
+              Nenhuma tarefa criada
+            </p>
+
+            <p class="mt-2 sm:mt-3 text-sm sm:text-base text-gray-500 dark:text-zinc-400">
+              Crie sua primeira tarefa para começar a se organizar
+            </p>
+          </div>
+        </div>
+      </ng-container>
+
       <!-- Lista de tasks -->
-      <div class="list-container w-full h-full flex justify-center">
+      <div
+        class="list-container mt-4 sm:mt-0 w-full h-full flex justify-center xl:items-start lg:mt-4"
+        [ngClass]="{ 'lg:items-center, mt-2': taskView.length >= 4 }"
+      >
         <div
           class="list-content max-w-11/12 dark:text-white min-w-11/12 lg:min-w-7/12 lg:max-w-96 mx-auto"
         >
           <ul
             cdkDropList
             (cdkDropListDropped)="drop($event)"
-            class="list flex flex-col gap-4 xl:gap-6 transform"
+            class="list flex flex-col gap-4 md:gap-6 xl:gap-6 transform xl:mb-4"
           >
             <ng-container *ngFor="let task of taskView">
               <div
                 cdkDrag
                 class="task-container transform bg-gray-300/80 hover:bg-gray-50 dark:bg-stone-900/40 ring-2 ring-gray-500/80 dark:ring-gray-400/30 rounded-xl text-2xl gap-5 p-5 flex flex-row transition hover:scale-105 dark:hover:bg-black"
               >
-                <div
-                  class="checkbox flex items-center mt-0.5"
-                 
-                >
+                <div class="checkbox flex items-center mt-0.5">
                   <p-checkbox
                     (onChange)="onCompleteTask(task)"
                     inputId="size_small"
@@ -120,7 +138,6 @@
                     [binary]="true"
                   />
                 </div>
-                
 
                 <li
                   [ngClass]="{
@@ -128,7 +145,7 @@
                     visible: !editMode || task.id != taskToEdit,
                     'line-through not-dark:text-gray-400 dark:text-gray-600/60': task.completed
                   }"
-                  class="tasks flex-1 items-center text-ellipsis text-nowrap overflow-hidden "
+                  class="tasks flex-1 items-center text-ellipsis text-nowrap overflow-hidden"
                 >
                   {{ task.description }}
                 </li>
@@ -149,11 +166,11 @@
                     (click)="EditTask(task)"
                     [img]="editMode ? Check : Pencilicon"
                     class="cursor-pointer transition hover:scale-95"
-                    [ngClass]="{'text-green-400': editMode, 'text-blue-400 ' : !editMode}"
+                    [ngClass]="{ 'text-green-400': editMode, 'text-blue-400 ': !editMode }"
                   ></lucide-icon>
 
                   <lucide-icon
-                    (click)="editMode? EditTask() : RemoveTask(task) "
+                    (click)="editMode ? EditTask() : RemoveTask(task)"
                     [img]="editMode ? X : Trash2"
                     class="text-red-500/70 cursor-pointer transition hover:scale-95"
                   ></lucide-icon>

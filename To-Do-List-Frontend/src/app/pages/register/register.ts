@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Authservice } from '../../services/Auth/authservice';
 import { MessageService } from 'primeng/api';
+import { Showmessage } from '../../services/Showmessage/showmessage';
 
 @Component({
   selector: 'app-register',
@@ -18,42 +19,36 @@ import { MessageService } from 'primeng/api';
   styleUrl: './register.css',
 })
 export class Register {
-  private ApiUrl : string = 'http://localhost:5195/register';
-  LoginMensagemErro : boolean = false
-  errorMessage : string = ''
-  emailTested : string = ''
+  private ApiUrl: string = 'http://localhost:5195/register';
+  LoginMensagemErro: boolean = false;
+  errorMessage: string = '';
+  emailTested: string = '';
 
-  constructor(private http : HttpClient, private cdr : ChangeDetectorRef, private router : Router, private _authservice : Authservice, _messageservice : MessageService){}
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private _authservice: Authservice,
+    private _messageservice: Showmessage
+  ) {}
 
-  User : Userinterface = {name: '', email: '', password: ''}
+  User: Userinterface = { name: '', email: '', password: '' };
 
-  register(form : NgForm)
-  {
-    if (form.valid)
-{
-
-        this.http.post(this.ApiUrl, this.User).subscribe(
-      {
-        next: (res) => 
-        {
-          this.router.navigate(['/login'])
+  register(form: NgForm) {
+    if (form.valid) {
+      this.http.post(this.ApiUrl, this.User).subscribe({
+        next: (res) => {
+          this.router.navigate(['/login']);
           this.LoginMensagemErro = false;
-          this.cdr.detectChanges()
+          this._messageservice.showMessageRegister();
         },
-        error: (err) => 
-        {
-          this.emailTested = this.User.email
+        error: (err) => {
+          this.emailTested = this.User.email;
           this.LoginMensagemErro = true;
-          this.errorMessage = err.error
-          this.cdr.detectChanges()
-        }
-      }
-    )
-        
- }
-     
-
+          this.errorMessage = err.error;
+          this.cdr.detectChanges();
+        },
+      });
+    }
   }
-
-  
 }

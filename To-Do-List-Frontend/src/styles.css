@@ -14,8 +14,7 @@ input:focus {
   font-display: swap;
 }
 
-.p-toast
-{
+.p-toast {
   margin-bottom: 3220px;
 }
 
@@ -23,12 +22,14 @@ input:focus {
   margin-top: 2.7px;
 }
 .lightPaginator {
+  width: 100% !important;
   background-color: rgba(243, 244, 246, 0.5) !important;
   border: none !important;
   color: black;
 }
 
 .darkPaginator {
+  width: 100% !important;
   border: none !important;
   background-color: rgba(9, 9, 11, 1) !important;
   color: white;

@@ -3,14 +3,23 @@ import { FormsModule } from '@angular/forms';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TaskInterface } from '../../interfaces/taskinterface';
 import { CheckboxModule } from 'primeng/checkbox';
-import { PencilIcon, Trash2, LucideAngularModule, MoonStar, Sun, X, Check , LogOutIcon } from 'lucide-angular';
+import {
+  PencilIcon,
+  Trash2,
+  LucideAngularModule,
+  MoonStar,
+  Sun,
+  X,
+  Check,
+  LogOutIcon,
+} from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { PaginatorModule, Paginator, PaginatorState } from 'primeng/paginator';
-import { ToastModule } from 'primeng/toast';
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Taskservice } from '../../services/task/taskservice';
 import { MessageService } from 'primeng/api';
 import { Authservice } from '../../services/Auth/authservice';
+import { Showmessage } from '../../services/Showmessage/showmessage';
 
 @Component({
   selector: 'app-main',
@@ -21,7 +30,7 @@ import { Authservice } from '../../services/Auth/authservice';
     LucideAngularModule,
     CommonModule,
     PaginatorModule,
-    ToastModule,
+
     CdkDrag,
     CdkDropList,
   ],
@@ -55,15 +64,13 @@ export class Main {
 
   constructor(
     private _taskService: Taskservice,
-    private _Messageservice: MessageService,
+    private _Messageservice: Showmessage,
     private _authservice: Authservice,
     private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-
     this.updateRowsPerPage();
-   
   }
 
   //Itens por pagina de acordo com tamanho da tela
@@ -88,8 +95,7 @@ export class Main {
     } else {
       this.rowsPerPage = 13;
     }
- this.loadTasks();
-    
+    this.loadTasks();
   }
 
   // Função para configurar troca de tema
@@ -107,7 +113,7 @@ export class Main {
     moveItemInArray(this.taskView, event.previousIndex, event.currentIndex);
   }
   // Funcoes crud de task abertura
-  
+
   AddTask() {
     this._taskService.AddTask(this.NewTask)?.subscribe({
       next: () => {
@@ -122,16 +128,14 @@ export class Main {
     this.editMode = !this.editMode;
     let edit = this.taskEdit;
 
-    if(task != null)
-    {
-
-       if (this.editMode == true) {
-      this.taskEdit = task.description;
-      this.taskToEdit = task.id;
-    } else if (task.id == this.taskToEdit) {
-      this._taskService.EditTask(task, edit);
-      edit = '';
-    }
+    if (task != null) {
+      if (this.editMode == true) {
+        this.taskEdit = task.description;
+        this.taskToEdit = task.id;
+      } else if (task.id == this.taskToEdit) {
+        this._taskService.EditTask(task, edit);
+        edit = '';
+      }
     }
   }
 
@@ -146,55 +150,38 @@ export class Main {
   }
 
   onCompleteTask(task: TaskInterface) {
-  this._taskService.CompleteTask(task).subscribe(() => {
-    this.loadTasks(); 
-    this.MessageServiceCompleteTaskOrReativeTask(task);
-  });
-}
-  
+    this._taskService.CompleteTask(task).subscribe(() => {
+      this.loadTasks();
+      this.MessageServiceCompleteTaskOrReativeTask(task);
+    });
+  }
 
   Filter(activeFilter: 'Total' | 'Actives' | 'Completed', task?: TaskInterface): TaskInterface[] {
     this.activeFilter = activeFilter;
     this.taskView = this._taskService.Filter(activeFilter, task);
-   
+
     this.paginator.changePage(0);
     this.onPageChange();
     return this.taskView;
   }
 
   recalculateCounters() {
-  const tasks = this._taskService.taskList;
+    const tasks = this._taskService.taskList;
 
-  this.totalTasks = tasks.length;
-  this.activeTasks = tasks.filter(x => !x.completed).length;
-  this.completedTasks = tasks.filter(x => x.completed).length;
-}
+    this.totalTasks = tasks.length;
+    this.activeTasks = tasks.filter((x) => !x.completed).length;
+    this.completedTasks = tasks.filter((x) => x.completed).length;
+  }
 
   loadTasks() {
-  this._taskService.GetTaskList().subscribe((res) => {
-    this.recalculateCounters();
-    this.onPageChange();
-  });
-}
+    this._taskService.GetTaskList().subscribe((res) => {
+      this.recalculateCounters();
+      this.onPageChange();
+    });
+  }
 
   MessageServiceCompleteTaskOrReativeTask(task: TaskInterface) {
-    if (task.completed === true) {
-      this._Messageservice.clear();
-      this._Messageservice.add({
-        key: 'tr',
-        severity: 'success',
-        summary: 'Task Advice',
-        detail: 'Task Completa!',
-      });
-    } else {
-      this._Messageservice.clear();
-      this._Messageservice.add({
-        key: 'tr',
-        severity: 'info',
-        summary: 'Task Advice',
-        detail: 'A Task foi reativada!',
-      });
-    }
+    this._Messageservice.MessageServiceCompleteTaskOrReativeTask(task);
   }
 
   // Funcao paginacao
@@ -206,9 +193,9 @@ export class Main {
     const totalTasks = this._taskService.Filter(this.activeFilter);
     const Inicio = this.page * this.rowsPerPage;
     const fim = Inicio + this.rowsPerPage;
-    this.totalrecords = totalTasks.length
+    this.totalrecords = totalTasks.length;
     this.taskView = totalTasks.slice(Inicio, fim);
-    
+
     this.cdr.detectChanges();
   }
 

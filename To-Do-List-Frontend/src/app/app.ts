@@ -3,8 +3,8 @@ import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule, TextAlignJustifyIcon, Trash } from 'lucide-angular';
-
-
+import { MessageService } from 'primeng/api';
+import { Toast } from 'primeng/toast';
 
 export interface Task {
   id: number;
@@ -14,10 +14,8 @@ export interface Task {
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FormsModule, CommonModule, LucideAngularModule],
+  imports: [RouterOutlet, FormsModule, CommonModule, LucideAngularModule, Toast],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
-export class App {
- 
-}
+export class App {}

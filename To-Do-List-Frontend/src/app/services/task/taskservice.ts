@@ -46,7 +46,7 @@ export class Taskservice {
       task.description = taskEdit;
       this.http.put(`${this.ApiUrl}/editTask`, task).subscribe({
         next: (res) => {
-          this.ShowMessageService.showMessagEditTask();
+          this.ShowMessageService.showMessageEditTask();
         },
         error: (err) => {
           console.log(err);
@@ -59,18 +59,16 @@ export class Taskservice {
     return this.http.delete(`${this.ApiUrl}/removetask/${task.id}`).pipe(
       tap((res) => {
         this.taskList = this.taskList.filter((x) => x.id != task.id);
-        this.ShowMessageService.showMessagRemovedTask();
+        this.ShowMessageService.showMessageRemovedTask();
       })
     );
   }
 
-CompleteTask(task: TaskInterface) {
-  return this.http.put(`${this.ApiUrl}/editTask`, task);
-}
+  CompleteTask(task: TaskInterface) {
+    return this.http.put(`${this.ApiUrl}/editTask`, task);
+  }
 
   Filter(activeFilter: 'Total' | 'Actives' | 'Completed', task?: TaskInterface) {
-  
-
     switch (activeFilter) {
       case 'Total':
         return this.taskList;

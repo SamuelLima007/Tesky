@@ -66,7 +66,7 @@ namespace To_Do_List_Backend.Controllers
             }
             else
             {
-               var user = new UserModel();
+                var user = new UserModel();
                 {
                     user.email = userRequest.email;
                     user.password = userRequest.password;

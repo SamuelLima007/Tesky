@@ -1,5 +1,5 @@
 <div class="container mx-auto w-full min-h-screen flex justify-center">
-  <div class="content-container w-full flex mt-3">
+  <div class="content-container w-full flex mt-1">
     <div class="items flex flex-col gap-1 w-full">
       <!-- Cabeçalho -->
       <div class="text-content text-center grid grid-cols-4">
@@ -95,7 +95,7 @@
       <ng-container *ngIf="taskView.length < 1">
         <div class="flex items-center justify-center min-h-[calc(100vh-420px)] px-4 sm:px-6">
           <div
-            class="w-full max-w-md sm:max-w-lg rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-md dark:shadow-none px-6 sm:px-10 py-8 sm:py-12 text-center transition-all duration-300"
+            class="w-full max-w-md sm:max-w-lg rounded-2xl border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 shadow-md dark:shadow-none px-6 sm:px-10 py-8 sm:py-12 text-center"
           >
             <p
               class="font-bold tracking-tight text-xl sm:text-2xl text-gray-800 dark:text-zinc-100"
@@ -112,7 +112,7 @@
 
       <!-- Lista de tasks -->
       <div
-        class="list-container mt-4 sm:mt-0 w-full h-full flex justify-center xl:items-start lg:mt-4"
+        class="list-container mt-4 sm:mt-1 w-full h-full flex justify-center xl:items-start 3xl:mt-4"
         [ngClass]="{ 'lg:items-center, mt-2': taskView.length >= 4 }"
       >
         <div
@@ -121,7 +121,7 @@
           <ul
             cdkDropList
             (cdkDropListDropped)="drop($event)"
-            class="list flex flex-col gap-4 md:gap-6 xl:gap-6 transform xl:mb-4"
+            class="list flex flex-col gap-4 md:gap-6 xl:gap-6 transform xl:mb-3"
           >
             <ng-container *ngFor="let task of taskView">
               <div
